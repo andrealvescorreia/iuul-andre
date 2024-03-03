@@ -3,19 +3,16 @@ const GeraRelatorio = require('./GeraRelatorio');
 const readline = require('readline-sync');
 
 
-class LêVerticesGeraRelatorio {
-  #vertices = [];
+class LeitorVertices {
+
   lê(qtdVertices = 3) {
+    let vertices = [];
     console.log('Insira as coordenadas do vertice no formato x, y');
     for (let i = 0; i < qtdVertices; i++) {
       const entrada = readline.question(`v${i + 1} = `);
-      this.#vertices.push(this.#converteEntradaParaVertice(entrada));
+      vertices.push(this.#converteEntradaParaVertice(entrada));
     }
-  }
-
-  gera() { // TODO: fazer injeção de dependencia do gerador.
-    let gerador = new GeraRelatorio(this.#vertices);
-    console.log('\n ==RELATORIO== \n' + gerador.gera());
+    return vertices;
   }
 
   #converteEntradaParaVertice(entrada) {
@@ -24,6 +21,8 @@ class LêVerticesGeraRelatorio {
   }
 }
 
-const leitorGerador = new LêVerticesGeraRelatorio();
-leitorGerador.lê(3);
-leitorGerador.gera();
+const leitor = new LeitorVertices();
+const vertices = leitor.lê(3);
+const gerador = new GeraRelatorio(vertices);
+console.log('\n ==RELATORIO== \n' + gerador.gera());
+console.log(gerador.gera());
