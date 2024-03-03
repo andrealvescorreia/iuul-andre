@@ -18,10 +18,9 @@ module.exports = class GeraRelatorio {
       const vi = this.vertices[i];
       for (let j = 0; j < this.vertices.length; j++) {
         const vj = this.vertices[j];
-
         if (vi === vj) continue;
 
-        const distancia = vi.distancia(vj);
+        const distancia = Number(vi.distancia(vj).toFixed(5));
         aux += `d(v${i + 1}, v${j + 1}) = ${distancia}\n`;
       }
     }
@@ -34,10 +33,8 @@ module.exports = class GeraRelatorio {
       const vi = this.vertices[i];
       for (let j = 0; j < this.vertices.length; j++) {
         const vj = this.vertices[j];
-
         if (vi === vj) continue;
 
-        const iguais = vi.equals(vj);
         if (vi.equals(vj))
           aux += `v${i + 1} == v${j + 1}\n`;
         else
@@ -52,8 +49,6 @@ module.exports = class GeraRelatorio {
     relatorio += this.#relatorioVertices + '---\n';
     relatorio += this.#relatorioDistancias + '---\n';
     relatorio += this.#relatorioIgualdades;
-
-
     return relatorio;
   }
 }

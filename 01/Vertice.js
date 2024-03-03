@@ -15,7 +15,7 @@ module.exports = class Vertice {
   }
 
   distancia(v) {
-    const d = Math.sqrt(((this.#x - v.x) ** 2) + ((this.#y - v.y) ** 2)).toFixed(5);
+    const d = Math.sqrt(((this.#x - v.x) ** 2) + ((this.#y - v.y) ** 2));
     return Number(d);
   }
 
