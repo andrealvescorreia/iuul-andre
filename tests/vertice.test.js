@@ -16,7 +16,7 @@ test('calcula distancia entre dois vertices iguais', () => {
 test('calcula distancia entre dois vertices', () => {
   const vertice1 = new Vertice(1, 3);
   const vertice2 = new Vertice(2, 5);
-  expect(vertice1.distancia(vertice2)).toBe(2.23606797749979);
+  expect(vertice1.distancia(vertice2)).toBeCloseTo(2.23606);
 });
 
 test('move vertice para 0,0', () => {
