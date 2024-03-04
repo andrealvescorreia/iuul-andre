@@ -1,5 +1,5 @@
 const Vertice = require('../01/Vertice');
-const GeraRelatorio = require('../01/GeraRelatorio');
+const RelatorioVertices = require('../01/RelatorioVertices');
 
 test('gera relatorio 3 vertices', () => {
   const v1 = new Vertice(0, 0);
@@ -8,7 +8,7 @@ test('gera relatorio 3 vertices', () => {
 
   const vertices = [v1, v2, v3];
 
-  const gerador = new GeraRelatorio(vertices);
+  const gerador = new RelatorioVertices(vertices);
 
   const relatorioEsperado =
     `v1 = (0,0)

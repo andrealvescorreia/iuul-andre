@@ -1,4 +1,4 @@
-module.exports = class GeraRelatorio {
+module.exports = class RelatorioVertices {
   constructor(vertices) {
     this.vertices = vertices;
   }
