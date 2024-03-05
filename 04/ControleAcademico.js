@@ -104,18 +104,13 @@ module.exports = class ControleAcademico {
     },
   ];
 
-  #opcoes = this.#acoes.map(acao => {
-    return `${acao.id}: ${acao.descricao}`
-  });
-
-
   init() {
     this.#rodando = true;
     console.clear();
     console.log('Bem vindo ao controle acadêmico da turma!');
     console.log('A seguir estão as ações que voce pode realizar:\n')
     while (this.#rodando) {
-      this.#opcoes.forEach(opcao => console.log(opcao));
+      this.#acoes.forEach(acao => console.log(`${acao.id}: ${acao.descricao}`))
       const entrada = readline.question('\nInsira a acao que deseja realizar: ');
       console.clear();
       this.#executarAcao(entrada);
