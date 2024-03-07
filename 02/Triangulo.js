@@ -9,7 +9,7 @@ module.exports = class Triangulo {
     return this.area != 0;
   }
 
-  constructor(v1, v2, v3) {
+  constructor([v1, v2, v3]) {
     this.#v1 = v1;
     this.#v2 = v2;
     this.#v3 = v3;
@@ -67,6 +67,6 @@ module.exports = class Triangulo {
   }
 
   clone() {
-    return new Triangulo(this.#v1, this.#v2, this.#v3);
+    return new Triangulo([this.#v1, this.#v2, this.#v3]);
   }
 }

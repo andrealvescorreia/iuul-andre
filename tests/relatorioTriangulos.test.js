@@ -3,9 +3,9 @@ const RelatorioTriangulos = require('../02/RelatorioTriangulos');
 const Vertice = require('../01/Vertice');
 
 test('gera relatorio 3 triangulos', () => {
-  const t1 = new Triangulo(new Vertice(0, 0), new Vertice(2, 0), new Vertice(1, 2));
-  const t2 = new Triangulo(new Vertice(-2, -2), new Vertice(6, 1), new Vertice(-1, 7));
-  const t3 = new Triangulo(new Vertice(0, 0), new Vertice(2, 0), new Vertice(1, Math.sqrt(3)));
+  const t1 = new Triangulo([new Vertice(0, 0), new Vertice(2, 0), new Vertice(1, 2)]);
+  const t2 = new Triangulo([new Vertice(-2, -2), new Vertice(6, 1), new Vertice(-1, 7)]);
+  const t3 = new Triangulo([new Vertice(0, 0), new Vertice(2, 0), new Vertice(1, Math.sqrt(3))]);
 
   const gerador = new RelatorioTriangulos([t1, t2, t3]);
 
