@@ -1,31 +1,22 @@
 const Vertice = require("../01/Vertice");
+const Poligono = require("../03/Poligono");
 
-module.exports = class Triangulo {
-  #vertices = [];
-
+module.exports = class Triangulo extends Poligono {
   #valida() {
-    if (this.vertices.length < 3 || this.area == 0)
+    if (this.area == 0)
       throw new Error('Não é um triângulo.');
   }
 
   constructor(vertices = [v1, v2, v3]) {
-    this.#vertices = vertices;
+    super(vertices);
     this.#valida();
   }
 
-  get vertices() {
-    return this.#vertices;
-  }
-
   get #tamanhoArestas() { // TODO: pensar em um nome melhor pra esse metodo?
-    const ladoA = this.#vertices[0].distancia(this.#vertices[1]);
-    const ladoB = this.#vertices[0].distancia(this.#vertices[2]);
-    const ladoC = this.#vertices[1].distancia(this.#vertices[2]);
+    const ladoA = this.vertices[0].distancia(this.vertices[1]);
+    const ladoB = this.vertices[0].distancia(this.vertices[2]);
+    const ladoC = this.vertices[1].distancia(this.vertices[2]);
     return [ladoA, ladoB, ladoC]
-  }
-
-  get perimetro() {
-    return this.#tamanhoArestas.reduce((acSoma, aresta) => acSoma + aresta);
   }
 
   get area() {
@@ -64,6 +55,6 @@ module.exports = class Triangulo {
   }
 
   clone() {
-    return new Triangulo(this.#vertices);
+    return new Triangulo(this.vertices);
   }
 }

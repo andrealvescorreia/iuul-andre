@@ -49,7 +49,7 @@ test('calcula área triângulo equilátero', () => {
 
 test('deve lançar exceção ao criar triângulo inválido', () => {
   let verticesTrianguloInvalido = [new Vertice(0, 0), new Vertice(0, 0), new Vertice(0, 0)];
-  expect(() => new Triangulo(verticesTrianguloInvalido)).toThrow('Não é um triângulo.');
+  expect(() => new Triangulo(verticesTrianguloInvalido)).toThrow('O polígono deve ter vertices distintos.');
 
   verticesTrianguloInvalido = [new Vertice(0, 0), new Vertice(1, 0), new Vertice(2, 0)];
   expect(() => new Triangulo(verticesTrianguloInvalido)).toThrow('Não é um triângulo.');
