@@ -1,29 +1,26 @@
 const Vertice = require("../01/Vertice");
 
 module.exports = class Triangulo {
-  #v1;
-  #v2;
-  #v3;
+  #vertices = [];
 
-  #valido() {
-    return this.area != 0;
+  #valida() {
+    if (this.vertices.length < 3 || this.area == 0)
+      throw new Error('Não é um triângulo.');
   }
 
-  constructor([v1, v2, v3]) {
-    this.#v1 = v1;
-    this.#v2 = v2;
-    this.#v3 = v3;
-    if (!this.#valido()) throw new Error('Não é um triângulo.');
+  constructor(vertices = [v1, v2, v3]) {
+    this.#vertices = vertices;
+    this.#valida();
   }
 
   get vertices() {
-    return [this.#v1, this.#v2, this.#v3];
+    return this.#vertices;
   }
 
   get #tamanhoArestas() { // TODO: pensar em um nome melhor pra esse metodo?
-    const ladoA = this.#v1.distancia(this.#v2);
-    const ladoB = this.#v1.distancia(this.#v3);
-    const ladoC = this.#v2.distancia(this.#v3);
+    const ladoA = this.#vertices[0].distancia(this.#vertices[1]);
+    const ladoB = this.#vertices[0].distancia(this.#vertices[2]);
+    const ladoC = this.#vertices[1].distancia(this.#vertices[2]);
     return [ladoA, ladoB, ladoC]
   }
 
@@ -67,6 +64,6 @@ module.exports = class Triangulo {
   }
 
   clone() {
-    return new Triangulo([this.#v1, this.#v2, this.#v3]);
+    return new Triangulo(this.#vertices);
   }
 }
