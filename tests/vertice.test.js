@@ -28,9 +28,9 @@ test('move vertice para 0,0', () => {
 
 test('move vertice', () => {
   const vertice = new Vertice(1, 3);
-  vertice.move(10, 123)
+  vertice.move(10, -123)
   expect(vertice.x).toBe(10);
-  expect(vertice.y).toBe(123);
+  expect(vertice.y).toBe(-123);
 });
 
 test('verifica vertices iguais', () => {
