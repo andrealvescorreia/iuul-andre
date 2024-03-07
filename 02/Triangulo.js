@@ -57,4 +57,8 @@ module.exports = class Triangulo extends Poligono {
   clone() {
     return new Triangulo(this.vertices);
   }
+
+  addVertice() {
+    return false;
+  }
 }
