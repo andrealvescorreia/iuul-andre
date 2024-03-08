@@ -1,3 +1,5 @@
+const ValidadorCPF = require("./ValidadorCPF");
+
 module.exports = class Validador {
 
   static validaNome(nome) {
@@ -8,11 +10,12 @@ module.exports = class Validador {
   static validaCPF(cpf) {
     if (isNaN(Number(cpf))) throw new Error('cpf deve ter valores numericos apenas');
     if (cpf.length != 11) throw new Error('cpf deve ter 11 digitos');
+    const cpfValidado = new ValidadorCPF(cpf);
+    if (!cpfValidado.valido()) throw new Error('cpf inválido');
     return true;
   }
 
   static aplicaMascaraCpf(cpf) {
-    Validador.validaCPF(cpf);
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
   }
 
