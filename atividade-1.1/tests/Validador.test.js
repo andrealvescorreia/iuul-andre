@@ -9,7 +9,11 @@ test('nome invalido', () => {
 });
 
 test('cpf valido', () => {
-  expect(Validador.validaCPF('12345678910')).toBe(true);
+  expect(Validador.validaCPF('07252373096')).toBe(true);
+});
+
+test('cpf invalido', () => {
+  expect(() => Validador.validaCPF('12345678910')).toThrow('cpf inválido');
 });
 
 test('deve lancar erro cpf que nao tem 11 digitos', () => {
