@@ -1,23 +1,19 @@
 module.exports = class ValidadorCPF {
-  constructor(cpfEnviado) {
-    this.cpfEnviado = cpfEnviado;
-  }
-
-  get cpfLimpo() {
-    return this.cpfEnviado.replace(/\D+/g, '');
+  constructor(cpf) {
+    this.cpf = cpf;
   }
 
   valido() {
-    if (typeof this.cpfLimpo === 'undefined') return false;
-    if (this.cpfLimpo.length !== 11) return false;
+    if (typeof this.cpf === 'undefined') return false;
+    if (this.cpf.length !== 11) return false;
     if (this.ehSequencia()) return false;
 
-    const cpfParcial = this.cpfLimpo.slice(0, -2);
+    const cpfParcial = this.cpf.slice(0, -2);
     const digVerificador1 = this.calculaDigitoVerificador(cpfParcial);
     const digVerificador2 = this.calculaDigitoVerificador(cpfParcial + digVerificador1);
 
     const novoCpf = cpfParcial + digVerificador1 + digVerificador2;
-    return (this.cpfLimpo === novoCpf);
+    return (this.cpf === novoCpf);
   }
 
   calculaDigitoVerificador(cpfParcial) {
@@ -35,6 +31,6 @@ module.exports = class ValidadorCPF {
   }
 
   ehSequencia() {
-    return this.cpfLimpo[0].repeat(this.cpfLimpo.length) === this.cpfLimpo;
+    return this.cpf[0].repeat(this.cpf.length) === this.cpf;
   }
 }
