@@ -59,7 +59,7 @@ describe('testes', () => {
 
   test('exclui dois pacientes', () => {
     consultorio.descadastrar(pacientes[0].cpf);
-    consultorio.descadastrar(pacientes[0].cpf);
+    consultorio.descadastrar(pacientes[1].cpf);
     expect(consultorio.pacientes).toEqual([]);
   });
 
