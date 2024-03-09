@@ -48,6 +48,11 @@ module.exports = class Validador {
     return Math.abs(anosData.getUTCFullYear() - 1970);
   }
 
+  static calculaIdade(dataNascimentoStr, dataAtual = Date.now()) {
+    const dataNascimento = Validador.converteStringEmData(dataNascimentoStr);
+    return Validador.#diferencaEmAnos(dataNascimento, dataAtual);
+  }
+
   static ehMaiorDeIdade(dataNascimento, dataAtual = Date.now()) {
     const idade = Validador.#diferencaEmAnos(dataNascimento, dataAtual);
     return idade >= 18;
