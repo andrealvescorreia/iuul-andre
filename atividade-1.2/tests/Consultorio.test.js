@@ -1,23 +1,35 @@
 const Consultorio = require('../src/models/Consultorio');
 const Paciente = require('../src/models/Paciente');
+const Agendamento = require('../src/models/Agendamento');
 
-describe('testes', () => {
-  let consultorio;
-  let pacientes;
+let consultorio;
+let pacientes;
 
-  function inicializaConsultorioComPacientes() {
-    consultorio = new Consultorio();
-    pacientes = [
-      new Paciente('91523518235', 'Maria', '10/10/2002'),
-      new Paciente('77884084848', 'Jose Messias', '10/10/2002'),
-    ];
-    pacientes.forEach((p) => {
-      consultorio.cadastrar(p);
-    });
-  }
+function inicializaConsultorio() {
+  consultorio = new Consultorio();
+}
 
+function adicionaPacientes() {
+  pacientes = [
+    new Paciente('91523518235', 'Maria', '10/10/2002'),
+    new Paciente('77884084848', 'Jose Messias', '10/10/2002'),
+  ];
+  pacientes.forEach((p) => {
+    consultorio.cadastrar(p);
+  });
+}
+
+function agendaConsultas() {
+  consultorio.agendar(new Agendamento(pacientes[0].cpf, '10/10/2024', '1000', '1030'));
+  consultorio.agendar(new Agendamento(pacientes[1].cpf, '10/10/2024', '1030', '1045'));
+
+  consultorio.agendar(new Agendamento(pacientes[1].cpf, '11/11/2024', '1330', '1415'));
+}
+
+describe('testes inserção de pacientes', () => {
   beforeEach(() => {
-    inicializaConsultorioComPacientes();
+    inicializaConsultorio();
+    adicionaPacientes();
   });
 
   test('cria novo consultorio', () => {
@@ -43,6 +55,13 @@ describe('testes', () => {
     expect(consultorio.cadastrar(novoPaciente)).toBe(false);
     expect(consultorio.pacientes).toEqual(pacientes);
   });
+});
+
+describe('testes exclusão de pacientes', () => {
+  beforeEach(() => {
+    inicializaConsultorio();
+    adicionaPacientes();
+  });
 
   test('exclui único paciente', () => {
     consultorio = new Consultorio();
@@ -66,5 +85,62 @@ describe('testes', () => {
   test('não exclui paciente não cadastrado', () => {
     expect(consultorio.descadastrar('01010101')).toBe(false);
     expect(consultorio.pacientes).toEqual(pacientes);
+  });
+
+  test('não exclui paciente não cadastrado', () => {
+    expect(consultorio.descadastrar('01010101')).toBe(false);
+    expect(consultorio.pacientes).toEqual(pacientes);
+  });
+});
+
+describe('testes agendamentos', () => {
+  beforeEach(() => {
+    inicializaConsultorio();
+    adicionaPacientes();
+  });
+
+  test('duas consultas', () => {
+    const consulta1 = new Agendamento(pacientes[0].cpf, '10/10/2024', '1000', '1030');
+    const consulta2 = new Agendamento(pacientes[1].cpf, '10/10/2024', '1030', '1045');
+    expect(consultorio.agendar(consulta1)).toBe(true);
+    expect(consultorio.agendar(consulta2)).toBe(true);
+    expect(consultorio.agendamentos).toEqual([consulta1, consulta2]);
+  });
+
+  test('deve lançar exceção cpf não cadastrado', () => {
+    const consulta = new Agendamento('0101010101', '10/10/2024', '1000', '1030');
+    expect(() => consultorio.agendar(consulta)
+      .toThrow('cpf do paciente não encontrado'));
+    expect(consultorio.agendamentos).toEqual([]);
+  });
+
+  /* test('deve lançar exceção data e horario já reservados', () => {
+    const consulta1 = new Agendamento(pacientes[0].cpf, '10/10/2024', '1000', '1030');
+    const consulta2 = new Agendamento(pacientes[1].cpf, '10/10/2024', '1000', '1015');
+    expect(consultorio.agendar(consulta1)).toBe(true);
+    expect(() => consultorio.agendar(consulta2)).toThrow('horário já reservado');
+    expect(consultorio.agendamentos).toEqual([consulta1]);
+  }); */
+});
+
+describe('testes horarioEstaLivre', () => {
+  beforeEach(() => {
+    inicializaConsultorio();
+    adicionaPacientes();
+    agendaConsultas();
+  });
+
+  test('esta livre', () => {
+    expect(consultorio.horarioEstaLivre('10/10/2024', '0959')).toBe(true);
+    expect(consultorio.horarioEstaLivre('10/10/2024', '1046')).toBe(true);
+  });
+
+  test('esta ocupado', () => {
+    expect(consultorio.horarioEstaLivre('10/10/2024', '1000')).toBe(false);
+    expect(consultorio.horarioEstaLivre('10/10/2024', '1001')).toBe(false);
+    expect(consultorio.horarioEstaLivre('10/10/2024', '1002')).toBe(false);
+    expect(consultorio.horarioEstaLivre('10/10/2024', '1003')).toBe(false);
+    expect(consultorio.horarioEstaLivre('10/10/2024', '1044')).toBe(false);
+    expect(consultorio.horarioEstaLivre('10/10/2024', '1045')).toBe(false);
   });
 });
