@@ -132,6 +132,7 @@ describe('testes horarioEstaLivre', () => {
 
   test('esta livre', () => {
     expect(consultorio.horarioEstaLivre('10/10/2024', '0959')).toBe(true);
+    expect(consultorio.horarioEstaLivre('10/10/2024', '1045')).toBe(true);
     expect(consultorio.horarioEstaLivre('10/10/2024', '1046')).toBe(true);
   });
 
@@ -141,6 +142,5 @@ describe('testes horarioEstaLivre', () => {
     expect(consultorio.horarioEstaLivre('10/10/2024', '1002')).toBe(false);
     expect(consultorio.horarioEstaLivre('10/10/2024', '1003')).toBe(false);
     expect(consultorio.horarioEstaLivre('10/10/2024', '1044')).toBe(false);
-    expect(consultorio.horarioEstaLivre('10/10/2024', '1045')).toBe(false);
   });
 });
