@@ -4,6 +4,24 @@ test('horario to date', () => {
   expect(HorarioUtils.horarioToDate('0800')).toEqual(new Date('1/1/1970 08:00:00'));
 });
 
+test('horario obedece bloco de 15 minutos', () => {
+  expect(HorarioUtils.obedeceBlocoDe15minutos('0015')).toBe(true);
+  expect(HorarioUtils.obedeceBlocoDe15minutos('0030')).toBe(true);
+  expect(HorarioUtils.obedeceBlocoDe15minutos('0045')).toBe(true);
+  expect(HorarioUtils.obedeceBlocoDe15minutos('0100')).toBe(true);
+  expect(HorarioUtils.obedeceBlocoDe15minutos('0115')).toBe(true);
+  expect(HorarioUtils.obedeceBlocoDe15minutos('2300')).toBe(true);
+  expect(HorarioUtils.obedeceBlocoDe15minutos('2345')).toBe(true);
+});
+
+test('horario não obedece bloco de 15 minutos', () => {
+  expect(HorarioUtils.obedeceBlocoDe15minutos('0001')).toBe(false);
+  expect(HorarioUtils.obedeceBlocoDe15minutos('0014')).toBe(false);
+  expect(HorarioUtils.obedeceBlocoDe15minutos('0035')).toBe(false);
+  expect(HorarioUtils.obedeceBlocoDe15minutos('1310')).toBe(false);
+  expect(HorarioUtils.obedeceBlocoDe15minutos('2359')).toBe(false);
+});
+
 test('horario dentro do limite', () => {
   expect(HorarioUtils.dentroDoLimite('0800', '1900', '0800')).toBe(true);
   expect(HorarioUtils.dentroDoLimite('0800', '1900', '1859')).toBe(true);

@@ -25,21 +25,3 @@ test('horario incorreto deve ser invalido', () => {
   expect(HorarioValidator.valido('-1000')).toBe(false);
   expect(HorarioValidator.valido('10599')).toBe(false);
 });
-
-test('horario obedece bloco de 15 minutos', () => {
-  expect(HorarioValidator.obedeceBlocoDe15minutos('0015')).toBe(true);
-  expect(HorarioValidator.obedeceBlocoDe15minutos('0030')).toBe(true);
-  expect(HorarioValidator.obedeceBlocoDe15minutos('0045')).toBe(true);
-  expect(HorarioValidator.obedeceBlocoDe15minutos('0100')).toBe(true);
-  expect(HorarioValidator.obedeceBlocoDe15minutos('0115')).toBe(true);
-  expect(HorarioValidator.obedeceBlocoDe15minutos('2300')).toBe(true);
-  expect(HorarioValidator.obedeceBlocoDe15minutos('2345')).toBe(true);
-});
-
-test('horario não obedece bloco de 15 minutos', () => {
-  expect(HorarioValidator.obedeceBlocoDe15minutos('0001')).toBe(false);
-  expect(HorarioValidator.obedeceBlocoDe15minutos('0014')).toBe(false);
-  expect(HorarioValidator.obedeceBlocoDe15minutos('0035')).toBe(false);
-  expect(HorarioValidator.obedeceBlocoDe15minutos('1310')).toBe(false);
-  expect(HorarioValidator.obedeceBlocoDe15minutos('2359')).toBe(false);
-});

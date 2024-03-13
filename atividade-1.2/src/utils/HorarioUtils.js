@@ -7,6 +7,13 @@ module.exports = class HorarioUtils {
     return new Date(`1/1/1970 ${horarioStr.slice(0, 2)}:${horarioStr.slice(-2)}:00`);
   }
 
+  static obedeceBlocoDe15minutos(horarioStr) {
+    if (!HorarioValidator.valido(horarioStr)) { throw new Error('horário com formato inválido'); }
+    const minutos = Number(horarioStr.slice(-2));
+    if (minutos > 0 && minutos % 15 !== 0) return false;
+    return true;
+  }
+
   static dentroDoLimite(limiteInferiorHorario, limiteSuperiorHorario, horario) {
     const limiteInferiorDate = HorarioUtils.horarioToDate(limiteInferiorHorario);
     const limiteSuperiorDate = HorarioUtils.horarioToDate(limiteSuperiorHorario);
