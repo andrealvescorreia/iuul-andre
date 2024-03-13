@@ -32,7 +32,7 @@ describe('testes inserção de pacientes', () => {
     adicionaPacientes();
   });
 
-  test('cria novo consultorio', () => {
+  test('cria novo consultorio sem pacientes', () => {
     consultorio = new Consultorio();
     expect(consultorio.pacientes).toEqual([]);
   });
@@ -120,6 +120,17 @@ describe('testes agendamentos', () => {
     expect(consultorio.agendar(consulta1)).toBe(true);
     expect(() => consultorio.agendar(consulta2)).toThrow('horário já reservado');
     expect(consultorio.agendamentos).toEqual([consulta1]);
+  });
+
+  test('deve lançar exceção horario não respeita blocos de 15 minutos', () => {
+    const msg = 'apenas horários em blocos de 15 minutos são aceitos. ex: 1000, 1015, 1030, etc.';
+    expect(() => consultorio.agendar(new Agendamento(pacientes[0].cpf, '10/10/2024', '1001', '1030')))
+      .toThrow(msg);
+
+    expect(() => consultorio.agendar(new Agendamento(pacientes[1].cpf, '10/10/2024', '1000', '1010')))
+      .toThrow(msg);
+
+    expect(consultorio.agendamentos).toEqual([]);
   });
 });
 
