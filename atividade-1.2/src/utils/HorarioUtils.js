@@ -1,14 +1,14 @@
-const HorarioValidator = require('../validators/HorarioValidator');
+const HoraValidator = require('../validators/HoraValidator');
 
 module.exports = class HorarioUtils {
   static horarioToDate(horarioStr) {
     if (typeof horarioStr !== 'string') { throw new Error(`horário deve ser string mas recebeu ${typeof horarioStr}`); }
-    if (!HorarioValidator.valido(horarioStr)) throw new Error('horário com formato inválido');
+    if (!HoraValidator.valida(horarioStr)) throw new Error('horário com formato inválido');
     return new Date(`1/1/1970 ${horarioStr.slice(0, 2)}:${horarioStr.slice(-2)}:00`);
   }
 
   static obedeceBlocoDe15minutos(horarioStr) {
-    if (!HorarioValidator.valido(horarioStr)) { throw new Error('horário com formato inválido'); }
+    if (!HoraValidator.valida(horarioStr)) { throw new Error('horário com formato inválido'); }
     const minutos = Number(horarioStr.slice(-2));
     if (minutos > 0 && minutos % 15 !== 0) return false;
     return true;
