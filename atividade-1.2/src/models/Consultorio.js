@@ -58,6 +58,10 @@ module.exports = class Consultorio {
     if (!this.pacienteEstaCadastrado(agendamento.cpfPaciente)) {
       throw new Error('cpf do paciente não encontrado');
     }
+    if (!HorarioUtils.obedeceBlocoDe15minutos(agendamento.horaInicial)
+      || !HorarioUtils.obedeceBlocoDe15minutos(agendamento.horaFinal)) {
+      throw new Error('apenas horários em blocos de 15 minutos são aceitos. ex: 1000, 1015, 1030, etc.');
+    }
     if (!this.horarioEstaLivre(
       agendamento.dataConsulta,
       agendamento.horaInicial,
