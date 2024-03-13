@@ -13,4 +13,31 @@ module.exports = class HorarioUtils {
     const horarioDate = HorarioUtils.horarioToDate(horario);
     return (horarioDate >= limiteInferiorDate && horarioDate < limiteSuperiorDate);
   }
+
+  /**
+   * Determina se dois horários se sobrepoem.
+   *
+   * @param {object} h1 - horario 1
+   * @param {string} h1.inicio
+   * @param {string} h1.fim
+   * @param {object} h2 - horario 2
+   * @param {string} h2.inicio
+   * @param {string} h2.fim
+   * @returns {boolean}
+  */
+  static seSobrepoem(h1, h2) {
+    return (
+      ((HorarioUtils.dentroDoLimite(h1.inicio, h1.fim, h2.inicio)
+        && h1.fim !== h2.inicio)
+        || (HorarioUtils.dentroDoLimite(h1.inicio, h1.fim, h2.fim)
+          && h2.fim !== h1.inicio)
+      )
+      || (
+        (HorarioUtils.dentroDoLimite(h2.inicio, h2.fim, h1.inicio)
+          && h2.fim !== h1.inicio)
+        || (HorarioUtils.dentroDoLimite(h2.inicio, h2.fim, h1.fim)
+          && h1.fim !== h2.inicio)
+      )
+    );
+  }
 };

@@ -33,32 +33,19 @@ module.exports = class Consultorio {
     return true;
   }
 
-  // TODO move to HorarioUtils
-  horariosSeSobrepoem(horaInicial1, horaFinal1, horaInicial2, horaFinal2) {
-    return (
-      ((HorarioUtils.dentroDoLimite(horaInicial1, horaFinal1, horaInicial2)
-        && horaFinal1 !== horaInicial2)
-        || (HorarioUtils.dentroDoLimite(horaInicial1, horaFinal1, horaFinal2))
-      )
-      || (
-        (HorarioUtils.dentroDoLimite(horaInicial2, horaFinal2, horaInicial1)
-          && horaFinal2 !== horaInicial1)
-        || (HorarioUtils.dentroDoLimite(horaInicial2, horaFinal2, horaFinal1)
-          && horaFinal1 !== horaInicial2)
-      )
-    );
-  }
-
   horarioEstaLivre(data, horaInicial, horaFinal) {
-    // console.log(this.#agendamentos);
     let horarioEstaLivre = true;
     this.#agendamentos.forEach((agendamento) => {
       if (agendamento.dataConsulta === data
-        && this.horariosSeSobrepoem(
-          agendamento.horaInicial,
-          agendamento.horaFinal,
-          horaInicial,
-          horaFinal,
+        && HorarioUtils.seSobrepoem(
+          {
+            inicio: agendamento.horaInicial,
+            fim: agendamento.horaFinal,
+          },
+          {
+            inicio: horaInicial,
+            fim: horaFinal,
+          },
         )) {
         horarioEstaLivre = false;
       }
