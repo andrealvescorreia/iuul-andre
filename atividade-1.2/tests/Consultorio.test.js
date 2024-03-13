@@ -86,11 +86,6 @@ describe('testes exclusão de pacientes', () => {
     expect(consultorio.descadastrar('01010101')).toBe(false);
     expect(consultorio.pacientes).toEqual(pacientes);
   });
-
-  test('não exclui paciente não cadastrado', () => {
-    expect(consultorio.descadastrar('01010101')).toBe(false);
-    expect(consultorio.pacientes).toEqual(pacientes);
-  });
 });
 
 describe('testes agendamentos', () => {
