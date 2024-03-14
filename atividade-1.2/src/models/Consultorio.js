@@ -47,11 +47,12 @@ module.exports = class Consultorio {
     );
   }
 
-  agendar(agendamento, dataAtual = Date.now()) {
+  validaAgendamento(agendamento, dataAtual = Date.now()) {
+    AgendamentoValidator.valida(agendamento, dataAtual);
+
     if (!this.pacienteEstaCadastrado(agendamento.cpfPaciente)) {
       throw new Error('cpf do paciente não encontrado');
     }
-    AgendamentoValidator.valida(agendamento, dataAtual);
     if (this.foraDoHorarioDeFuncionamento(agendamento)) {
       throw new Error('horário da consulta informada está fora do horario de funcionamento');
     }
@@ -62,6 +63,10 @@ module.exports = class Consultorio {
     )) {
       throw new Error('horário já reservado');
     }
+  }
+
+  agendar(agendamento, dataAtual = Date.now()) {
+    this.validaAgendamento(agendamento, dataAtual);
     this.#agendamentos.push(agendamento);
     return true;
   }
