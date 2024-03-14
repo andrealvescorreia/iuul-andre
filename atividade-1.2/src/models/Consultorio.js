@@ -40,7 +40,7 @@ module.exports = class Consultorio {
       ));
   }
 
-  #foraDoHorarioDeFuncionamento(agendamento) {
+  foraDoHorarioDeFuncionamento(agendamento) {
     return (
       !HorarioUtils.dentroDoLimite(...Consultorio.HORARIOS_FUNCIONAMENTO, agendamento.horaInicial)
       || !HorarioUtils.dentroDoLimite(...Consultorio.HORARIOS_FUNCIONAMENTO, agendamento.horaFinal)
@@ -52,7 +52,7 @@ module.exports = class Consultorio {
       throw new Error('cpf do paciente não encontrado');
     }
     AgendamentoValidator.valida(agendamento, dataAtual);
-    if (this.#foraDoHorarioDeFuncionamento(agendamento)) {
+    if (this.foraDoHorarioDeFuncionamento(agendamento)) {
       throw new Error('horário da consulta informada está fora do horario de funcionamento');
     }
     if (this.horarioOcupado(
