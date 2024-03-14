@@ -33,18 +33,14 @@ module.exports = class HorarioUtils {
    * @returns {boolean}
   */
   static seSobrepoem(h1, h2) {
-    return (
-      ((HorarioUtils.dentroDoLimite(h1.inicio, h1.fim, h2.inicio)
-        && h1.fim !== h2.inicio)
-        || (HorarioUtils.dentroDoLimite(h1.inicio, h1.fim, h2.fim)
-          && h2.fim !== h1.inicio)
-      )
-      || (
-        (HorarioUtils.dentroDoLimite(h2.inicio, h2.fim, h1.inicio)
-          && h2.fim !== h1.inicio)
-        || (HorarioUtils.dentroDoLimite(h2.inicio, h2.fim, h1.fim)
-          && h1.fim !== h2.inicio)
-      )
-    );
+    const { inicio: inicio1, fim: fim1 } = h1;
+    const { inicio: inicio2, fim: fim2 } = h2;
+
+    const sobreposicao1 = HorarioUtils.dentroDoLimite(inicio1, fim1, inicio2) && fim1 !== inicio2;
+    const sobreposicao2 = HorarioUtils.dentroDoLimite(inicio1, fim1, fim2) && fim2 !== inicio1;
+    const sobreposicao3 = HorarioUtils.dentroDoLimite(inicio2, fim2, inicio1) && fim2 !== inicio1;
+    const sobreposicao4 = HorarioUtils.dentroDoLimite(inicio2, fim2, fim1) && fim1 !== inicio2;
+
+    return sobreposicao1 || sobreposicao2 || sobreposicao3 || sobreposicao4;
   }
 };
