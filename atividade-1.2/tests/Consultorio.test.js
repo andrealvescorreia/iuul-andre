@@ -136,6 +136,13 @@ describe('testes agendamentos', () => {
 
     expect(consultorio.agendamentos).toEqual([]);
   });
+
+  test('deve lançar exceção horario final antecede horario inicial', () => {
+    const msg = 'o horário do fim da consulta deve proceder o horário de início';
+    expect(() => consultorio.agendar(new Agendamento(pacientes[0].cpf, '13/04/2024', '1030', '1000')))
+      .toThrow(msg);
+    expect(consultorio.agendamentos).toEqual([]);
+  });
 });
 
 describe('testes horarioEstaLivre', () => {
