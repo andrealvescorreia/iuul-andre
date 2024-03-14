@@ -19,7 +19,9 @@ module.exports = class PacienteValidator {
   static validaDataNascimento(dataNascStr) {
     Validador.validaData(dataNascStr);
     const idade = Validador.calculaIdade(dataNascStr);
-    if (idade < PacienteValidator.IDADE_MINIMA) { throw new Error(`O paciente deve ter ao menos ${PacienteValidator.IDADE_MINIMA} anos`); }
+    if (idade < PacienteValidator.IDADE_MINIMA) {
+      throw new Error(`O paciente deve ter ao menos ${PacienteValidator.IDADE_MINIMA} anos`);
+    }
     return true;
   }
 };
