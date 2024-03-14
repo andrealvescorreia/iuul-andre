@@ -115,14 +115,32 @@ describe('testes pacienteTemAgendamentosFuturos', () => {
   });
 
   test('não tem', () => {
-    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[0].cpf)).toBe(false);
-    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[1].cpf)).toBe(false);
+    const dataAtual = new Date('12/12/2024 09:30');
+    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[0].cpf, dataAtual)).toBe(false);
+    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[1].cpf, dataAtual)).toBe(false);
   });
 
   test('tem', () => {
     agendaConsultas();
-    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[0].cpf)).toBe(true);
-    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[1].cpf)).toBe(true);
+    const dataAtual = new Date('03/14/2024 09:30');
+    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[0].cpf, dataAtual)).toBe(true);
+    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[1].cpf, dataAtual)).toBe(true);
+  });
+
+  test('tem agendamentos passados mas não futuros', () => {
+    let dataAtual = new Date('01/01/2024 09:30');
+    consultorio.agendar(new Agendamento(pacientes[0].cpf, '01/01/2024', '1000', '1015'), dataAtual);
+    // simula o passar de um dia...
+    dataAtual = new Date('01/02/2024 09:30');
+    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[0].cpf, dataAtual)).toBe(false);
+  });
+  test('tem agendamentos passados e futuros', () => {
+    let dataAtual = new Date('01/01/2024 09:30');
+    consultorio.agendar(new Agendamento(pacientes[0].cpf, '01/01/2024', '1000', '1015'), dataAtual);
+    // simula o passar de um dia...
+    dataAtual = new Date('01/02/2024 09:30');
+    consultorio.agendar(new Agendamento(pacientes[0].cpf, '01/02/2024', '1000', '1015'), dataAtual);
+    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[0].cpf, dataAtual)).toBe(true);
   });
 });
 

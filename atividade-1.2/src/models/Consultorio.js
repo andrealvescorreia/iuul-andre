@@ -1,4 +1,5 @@
 const HorarioUtils = require('../utils/HorarioUtils');
+const DataHorarioUtils = require('../utils/DataHorarioUtils');
 const AgendamentoValidator = require('../validators/AgendamentoValidator');
 
 module.exports = class Consultorio {
@@ -47,8 +48,14 @@ module.exports = class Consultorio {
     );
   }
 
-  pacienteTemAgendamentosFuturos(cpf) {
-    return this.#agendamentos.some((agendamento) => agendamento.cpfPaciente === cpf);
+  pacienteTemAgendamentosFuturos(cpf, dataAtual = Date.now()) {
+    return this.#agendamentos.some((agendamento) => {
+      const dataAgendamento = DataHorarioUtils.toDate(
+        agendamento.dataConsulta,
+        agendamento.horaFinal,
+      );
+      return agendamento.cpfPaciente === cpf && dataAgendamento > dataAtual;
+    });
   }
 
   validaAgendamento(agendamento, dataAtual = Date.now()) {
