@@ -74,6 +74,9 @@ module.exports = class Consultorio {
     )) {
       throw new Error('horário já reservado');
     }
+    if (this.pacienteTemAgendamentosFuturos(agendamento.cpfPaciente, dataAtual)) {
+      throw new Error('não é possível agendar pois o paciente ainda tem consultas pendentes');
+    }
   }
 
   agendar(agendamento, dataAtual = Date.now()) {

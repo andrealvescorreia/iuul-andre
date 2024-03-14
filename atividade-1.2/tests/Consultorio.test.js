@@ -22,8 +22,6 @@ function adicionaPacientes() {
 function agendaConsultas() {
   consultorio.agendar(new Agendamento(pacientes[0].cpf, '10/10/2024', '1000', '1030'));
   consultorio.agendar(new Agendamento(pacientes[1].cpf, '10/10/2024', '1030', '1045'));
-
-  consultorio.agendar(new Agendamento(pacientes[1].cpf, '11/11/2024', '1330', '1415'));
 }
 
 describe('testes inserção de pacientes', () => {
@@ -205,5 +203,16 @@ describe('testes agendamentos', () => {
     expect(() => consultorio.agendar(new Agendamento(pacientes[0].cpf, '13/04/2024', '0000', '1000')))
       .toThrow(msg);
     expect(consultorio.agendamentos).toEqual([]);
+  });
+
+  test('deve lançar exceção paciente já tem consulta futura', () => {
+    const msg = 'não é possível agendar pois o paciente ainda tem consultas pendentes';
+    const dataAtual = new Date('01/01/2024 09:30');
+    const consulta1 = new Agendamento(pacientes[0].cpf, '13/04/2024', '1000', '1015');
+    const consulta2 = new Agendamento(pacientes[0].cpf, '15/04/2024', '1000', '1015');
+    consultorio.agendar(consulta1, dataAtual);
+    expect(() => consultorio.agendar(consulta2, dataAtual))
+      .toThrow(msg);
+    expect(consultorio.agendamentos).toEqual([consulta1]);
   });
 });
