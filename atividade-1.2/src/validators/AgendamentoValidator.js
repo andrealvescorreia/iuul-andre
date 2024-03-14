@@ -12,7 +12,7 @@ module.exports = class AgendamentoValidator {
       throw new Error('só é possível fazer agendamentos para o futuro');
     }
     const dataFim = DataHorarioUtils.toDate(agendamento.dataConsulta, agendamento.horaFinal);
-    if (dataFim < dataInicio) {
+    if (dataFim <= dataInicio) {
       throw new Error('o horário do fim da consulta deve proceder o horário de início');
     }
     return true;
