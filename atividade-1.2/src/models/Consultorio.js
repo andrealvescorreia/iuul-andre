@@ -1,5 +1,5 @@
 const HorarioUtils = require('../utils/HorarioUtils');
-const DataHorarioUtils = require('../utils/DataHorarioUtils');
+const AgendamentoValidator = require('../validators/AgendamentoValidator');
 
 module.exports = class Consultorio {
   #pacientes = [];
@@ -55,18 +55,20 @@ module.exports = class Consultorio {
     return horarioOcupado;
   }
 
-  #validaDataEHorarioAgendamento(agendamento, dataAtual) {
-    if (!HorarioUtils.obedeceBlocoDe15minutos(agendamento.horaInicial)
-      || !HorarioUtils.obedeceBlocoDe15minutos(agendamento.horaFinal)) {
-      throw new Error('apenas horários em blocos de 15 minutos são aceitos. ex: 1000, 1015, 1030, etc.');
+  #foraDoHorarioDeFuncionamento(agendamento) {
+    return (
+      !HorarioUtils.dentroDoLimite(...Consultorio.HORARIOS_FUNCIONAMENTO, agendamento.horaInicial)
+      || !HorarioUtils.dentroDoLimite(...Consultorio.HORARIOS_FUNCIONAMENTO, agendamento.horaFinal)
+    );
+  }
+
+  agendar(agendamento, dataAtual = Date.now()) {
+    if (!this.pacienteEstaCadastrado(agendamento.cpfPaciente)) {
+      throw new Error('cpf do paciente não encontrado');
     }
-    const dataInicio = DataHorarioUtils.toDate(agendamento.dataConsulta, agendamento.horaInicial);
-    if (dataInicio < dataAtual) {
-      throw new Error('só é possível fazer agendamentos para o futuro');
-    }
-    const dataFim = DataHorarioUtils.toDate(agendamento.dataConsulta, agendamento.horaFinal);
-    if (dataFim < dataInicio) {
-      throw new Error('o horário do fim da consulta deve proceder o horário de início');
+    AgendamentoValidator.valida(agendamento, dataAtual);
+    if (this.#foraDoHorarioDeFuncionamento(agendamento)) {
+      throw new Error('horário da consulta informada está fora do horario de funcionamento');
     }
     if (this.horarioOcupado(
       agendamento.dataConsulta,
@@ -75,13 +77,6 @@ module.exports = class Consultorio {
     )) {
       throw new Error('horário já reservado');
     }
-  }
-
-  agendar(agendamento, dataAtual = Date.now()) {
-    if (!this.pacienteEstaCadastrado(agendamento.cpfPaciente)) {
-      throw new Error('cpf do paciente não encontrado');
-    }
-    this.#validaDataEHorarioAgendamento(agendamento, dataAtual);
     this.#agendamentos.push(agendamento);
     return true;
   }

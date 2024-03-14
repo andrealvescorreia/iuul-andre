@@ -88,6 +88,26 @@ describe('testes exclusão de pacientes', () => {
   });
 });
 
+describe('testes horarioOcupado', () => {
+  beforeEach(() => {
+    inicializaConsultorio();
+    adicionaPacientes();
+    agendaConsultas();
+  });
+
+  test('esta livre', () => {
+    expect(consultorio.horarioOcupado('10/10/2024', '0930', '1000')).toBe(false);
+    expect(consultorio.horarioOcupado('10/10/2024', '1045', '1100')).toBe(false);
+    expect(consultorio.horarioOcupado('11/10/2024', '1030', '1045')).toBe(false);
+  });
+
+  test('esta ocupado', () => {
+    expect(consultorio.horarioOcupado('10/10/2024', '1030', '1045')).toBe(true);
+    expect(consultorio.horarioOcupado('10/10/2024', '0959', '1046')).toBe(true);
+    expect(consultorio.horarioOcupado('10/10/2024', '1010', '1020')).toBe(true);
+  });
+});
+
 describe('testes agendamentos', () => {
   beforeEach(() => {
     inicializaConsultorio();
@@ -143,24 +163,11 @@ describe('testes agendamentos', () => {
       .toThrow(msg);
     expect(consultorio.agendamentos).toEqual([]);
   });
-});
 
-describe('testes horarioEstaLivre', () => {
-  beforeEach(() => {
-    inicializaConsultorio();
-    adicionaPacientes();
-    agendaConsultas();
-  });
-
-  test('esta livre', () => {
-    expect(consultorio.horarioOcupado('10/10/2024', '0930', '1000')).toBe(false);
-    expect(consultorio.horarioOcupado('10/10/2024', '1045', '1100')).toBe(false);
-    expect(consultorio.horarioOcupado('11/10/2024', '1030', '1045')).toBe(false);
-  });
-
-  test('esta ocupado', () => {
-    expect(consultorio.horarioOcupado('10/10/2024', '1030', '1045')).toBe(true);
-    expect(consultorio.horarioOcupado('10/10/2024', '0959', '1046')).toBe(true);
-    expect(consultorio.horarioOcupado('10/10/2024', '1010', '1020')).toBe(true);
+  test('deve lançar exceção horario fora do horario de funcionamento', () => {
+    const msg = 'horário da consulta informada está fora do horario de funcionamento';
+    expect(() => consultorio.agendar(new Agendamento(pacientes[0].cpf, '13/04/2024', '0000', '1000')))
+      .toThrow(msg);
+    expect(consultorio.agendamentos).toEqual([]);
   });
 });
