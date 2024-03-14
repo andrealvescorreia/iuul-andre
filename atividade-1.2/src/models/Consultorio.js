@@ -35,24 +35,11 @@ module.exports = class Consultorio {
   }
 
   horarioOcupado(data, horaInicial, horaFinal) {
-    let horarioOcupado = false;
-    this.#agendamentos.forEach((agendamento) => {
-      if (agendamento.dataConsulta === data
-        && HorarioUtils.seSobrepoem(
-          {
-            inicio: agendamento.horaInicial,
-            fim: agendamento.horaFinal,
-          },
-          {
-            inicio: horaInicial,
-            fim: horaFinal,
-          },
-        )) {
-        horarioOcupado = true;
-      }
-    });
-
-    return horarioOcupado;
+    return this.#agendamentos.some((agendamento) => agendamento.dataConsulta === data
+      && HorarioUtils.seSobrepoem(
+        { inicio: agendamento.horaInicial, fim: agendamento.horaFinal },
+        { inicio: horaInicial, fim: horaFinal },
+      ));
   }
 
   #foraDoHorarioDeFuncionamento(agendamento) {
