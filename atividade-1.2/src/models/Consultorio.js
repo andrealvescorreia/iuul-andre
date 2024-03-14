@@ -47,6 +47,10 @@ module.exports = class Consultorio {
     );
   }
 
+  pacienteTemAgendamentosFuturos(cpf) {
+    return this.#agendamentos.some((agendamento) => agendamento.cpfPaciente === cpf);
+  }
+
   validaAgendamento(agendamento, dataAtual = Date.now()) {
     AgendamentoValidator.valida(agendamento, dataAtual);
 
