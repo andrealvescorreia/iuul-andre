@@ -34,8 +34,8 @@ module.exports = class Consultorio {
     return true;
   }
 
-  horarioEstaLivre(data, horaInicial, horaFinal) {
-    let horarioEstaLivre = true;
+  horarioOcupado(data, horaInicial, horaFinal) {
+    let horarioOcupado = false;
     this.#agendamentos.forEach((agendamento) => {
       if (agendamento.dataConsulta === data
         && HorarioUtils.seSobrepoem(
@@ -48,11 +48,11 @@ module.exports = class Consultorio {
             fim: horaFinal,
           },
         )) {
-        horarioEstaLivre = false;
+        horarioOcupado = true;
       }
     });
 
-    return horarioEstaLivre;
+    return horarioOcupado;
   }
 
   #validaAgendamento(agendamento, dataAtual) {
@@ -71,7 +71,7 @@ module.exports = class Consultorio {
     if (dataFim < dataInicio) {
       throw new Error('o horário do fim da consulta deve proceder o horário de início');
     }
-    if (!this.horarioEstaLivre(
+    if (this.horarioOcupado(
       agendamento.dataConsulta,
       agendamento.horaInicial,
       agendamento.horaFinal,

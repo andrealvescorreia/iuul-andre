@@ -153,14 +153,14 @@ describe('testes horarioEstaLivre', () => {
   });
 
   test('esta livre', () => {
-    expect(consultorio.horarioEstaLivre('10/10/2024', '0930', '1000')).toBe(true);
-    expect(consultorio.horarioEstaLivre('10/10/2024', '1045', '1100')).toBe(true);
-    expect(consultorio.horarioEstaLivre('11/10/2024', '1030', '1045')).toBe(true);
+    expect(consultorio.horarioOcupado('10/10/2024', '0930', '1000')).toBe(false);
+    expect(consultorio.horarioOcupado('10/10/2024', '1045', '1100')).toBe(false);
+    expect(consultorio.horarioOcupado('11/10/2024', '1030', '1045')).toBe(false);
   });
 
   test('esta ocupado', () => {
-    expect(consultorio.horarioEstaLivre('10/10/2024', '1030', '1045')).toBe(false);
-    expect(consultorio.horarioEstaLivre('10/10/2024', '0959', '1046')).toBe(false);
-    expect(consultorio.horarioEstaLivre('10/10/2024', '1010', '1020')).toBe(false);
+    expect(consultorio.horarioOcupado('10/10/2024', '1030', '1045')).toBe(true);
+    expect(consultorio.horarioOcupado('10/10/2024', '0959', '1046')).toBe(true);
+    expect(consultorio.horarioOcupado('10/10/2024', '1010', '1020')).toBe(true);
   });
 });
