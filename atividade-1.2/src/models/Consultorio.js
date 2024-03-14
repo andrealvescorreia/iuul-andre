@@ -1,4 +1,5 @@
 const HorarioUtils = require('../utils/HorarioUtils');
+const DataHorarioUtils = require('../utils/DataHorarioUtils');
 
 module.exports = class Consultorio {
   #pacientes = [];
@@ -54,7 +55,7 @@ module.exports = class Consultorio {
     return horarioEstaLivre;
   }
 
-  agendar(agendamento) {
+  agendar(agendamento, dataAtual = Date.now()) {
     if (!this.pacienteEstaCadastrado(agendamento.cpfPaciente)) {
       throw new Error('cpf do paciente não encontrado');
     }
@@ -62,6 +63,12 @@ module.exports = class Consultorio {
       || !HorarioUtils.obedeceBlocoDe15minutos(agendamento.horaFinal)) {
       throw new Error('apenas horários em blocos de 15 minutos são aceitos. ex: 1000, 1015, 1030, etc.');
     }
+
+    const dataConsultaInicio = DataHorarioUtils.toDate(agendamento.dataConsulta, agendamento.horaInicial)
+    if(dataConsultaInicio < dataAtual ) {
+      throw new Error('só é possível fazer agendamentos para o futuro');
+    }
+
     if (!this.horarioEstaLivre(
       agendamento.dataConsulta,
       agendamento.horaInicial,
