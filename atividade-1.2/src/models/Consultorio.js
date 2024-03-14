@@ -64,8 +64,8 @@ module.exports = class Consultorio {
       throw new Error('apenas horários em blocos de 15 minutos são aceitos. ex: 1000, 1015, 1030, etc.');
     }
 
-    const dataConsultaInicio = DataHorarioUtils.toDate(agendamento.dataConsulta, agendamento.horaInicial)
-    if(dataConsultaInicio < dataAtual ) {
+    const dataConsultaInicio = DataHorarioUtils.toDate(agendamento.dataConsulta, agendamento.horaInicial);
+    if (dataConsultaInicio < dataAtual) {
       throw new Error('só é possível fazer agendamentos para o futuro');
     }
 
