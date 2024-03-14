@@ -108,6 +108,24 @@ describe('testes horarioOcupado', () => {
   });
 });
 
+describe('testes pacienteTemAgendamentosFuturos', () => {
+  beforeEach(() => {
+    inicializaConsultorio();
+    adicionaPacientes();
+  });
+
+  test('não tem', () => {
+    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[0].cpf)).toBe(false);
+    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[1].cpf)).toBe(false);
+  });
+
+  test('tem', () => {
+    agendaConsultas();
+    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[0].cpf)).toBe(true);
+    expect(consultorio.pacienteTemAgendamentosFuturos(pacientes[1].cpf)).toBe(true);
+  });
+});
+
 describe('testes agendamentos', () => {
   beforeEach(() => {
     inicializaConsultorio();
