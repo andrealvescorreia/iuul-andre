@@ -55,10 +55,7 @@ module.exports = class Consultorio {
     return horarioOcupado;
   }
 
-  #validaAgendamento(agendamento, dataAtual) {
-    if (!this.pacienteEstaCadastrado(agendamento.cpfPaciente)) {
-      throw new Error('cpf do paciente não encontrado');
-    }
+  #validaDataEHorarioAgendamento(agendamento, dataAtual) {
     if (!HorarioUtils.obedeceBlocoDe15minutos(agendamento.horaInicial)
       || !HorarioUtils.obedeceBlocoDe15minutos(agendamento.horaFinal)) {
       throw new Error('apenas horários em blocos de 15 minutos são aceitos. ex: 1000, 1015, 1030, etc.');
@@ -81,7 +78,10 @@ module.exports = class Consultorio {
   }
 
   agendar(agendamento, dataAtual = Date.now()) {
-    this.#validaAgendamento(agendamento, dataAtual);
+    if (!this.pacienteEstaCadastrado(agendamento.cpfPaciente)) {
+      throw new Error('cpf do paciente não encontrado');
+    }
+    this.#validaDataEHorarioAgendamento(agendamento, dataAtual);
     this.#agendamentos.push(agendamento);
     return true;
   }
