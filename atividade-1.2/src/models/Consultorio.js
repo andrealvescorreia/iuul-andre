@@ -17,9 +17,7 @@ module.exports = class Consultorio {
   }
 
   pacienteEstaCadastrado(cpf) {
-    const encontrado = this.#pacientes.find((paciente) => paciente.cpf === cpf);
-    if (encontrado) return true;
-    return false;
+    return this.#pacientes.some((paciente) => paciente.cpf === cpf);
   }
 
   cadastrar(paciente) {
