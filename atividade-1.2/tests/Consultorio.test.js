@@ -127,6 +127,15 @@ describe('testes agendamentos', () => {
 
     expect(consultorio.agendamentos).toEqual([]);
   });
+
+  test('deve lançar exceção horario antecede hora atual', () => {
+    const dataAtual = new Date('04/13/2024 10:15');
+    const msg = 'só é possível fazer agendamentos para o futuro';
+    expect(() => consultorio.agendar(new Agendamento(pacientes[0].cpf, '13/04/2024', '1000', '1030'), dataAtual))
+      .toThrow(msg);
+
+    expect(consultorio.agendamentos).toEqual([]);
+  });
 });
 
 describe('testes horarioEstaLivre', () => {
