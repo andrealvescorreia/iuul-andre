@@ -1,6 +1,5 @@
 const HorarioUtils = require('../utils/HorarioUtils');
 const DataHorarioUtils = require('../utils/DataHorarioUtils');
-const AgendamentoValidator = require('../validators/AgendamentoValidator');
 
 module.exports = class Consultorio {
   #pacientes = [];
@@ -59,8 +58,10 @@ module.exports = class Consultorio {
   }
 
   validaAgendamento(agendamento, dataAtual = Date.now()) {
-    AgendamentoValidator.valida(agendamento, dataAtual);
-
+    const dataInicio = DataHorarioUtils.toDate(agendamento.dataConsulta, agendamento.horaInicial);
+    if (dataInicio < dataAtual) {
+      throw new Error('só é possível fazer agendamentos para o futuro');
+    }
     if (!this.pacienteEstaCadastrado(agendamento.cpfPaciente)) {
       throw new Error('cpf do paciente não encontrado');
     }
