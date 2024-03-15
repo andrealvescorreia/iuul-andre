@@ -9,12 +9,12 @@ module.exports = class Agendamento {
 
   #horaFinal;
 
-  constructor(cpfPaciente, dataConsulta, horaInicial, horaFinal, dataAtual = Date.now()) {
+  constructor(cpfPaciente, dataConsulta, horaInicial, horaFinal) {
     this.#cpfPaciente = cpfPaciente;
     this.#dataConsulta = dataConsulta;
     this.#horaInicial = horaInicial;
     this.#horaFinal = horaFinal;
-    AgendamentoValidator.valida(this, dataAtual);
+    AgendamentoValidator.valida(this);
   }
 
   get cpfPaciente() {
