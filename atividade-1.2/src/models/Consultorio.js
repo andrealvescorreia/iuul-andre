@@ -1,12 +1,13 @@
-const HorarioUtils = require('../utils/HorarioUtils');
-const DataHorarioUtils = require('../utils/DataHorarioUtils');
+const HoraUtils = require('../utils/HoraUtils');
+const DataHorarioUtils = require('../utils/DataHoraUtils');
+const HoraAgendamento = require('./HoraAgendamento');
 
 module.exports = class Consultorio {
   #pacientes = [];
 
   #agendamentos = [];
 
-  static HORARIOS_FUNCIONAMENTO = ['0800', '1900'];
+  static HORARIOS_FUNCIONAMENTO = [new HoraAgendamento('0800'), new HoraAgendamento('1900')];
 
   get pacientes() {
     return this.#pacientes;
@@ -34,16 +35,16 @@ module.exports = class Consultorio {
 
   horarioOcupado(data, horaInicial, horaFinal) {
     return this.#agendamentos.some((agendamento) => agendamento.dataConsulta === data
-      && HorarioUtils.seSobrepoem(
-        { inicio: agendamento.horaInicial, fim: agendamento.horaFinal },
+      && HoraUtils.seSobrepoem(
+        { inicio: agendamento.horaInicial.hora, fim: agendamento.horaFinal.hora },
         { inicio: horaInicial, fim: horaFinal },
       ));
   }
 
   foraDoHorarioDeFuncionamento(agendamento) {
     return (
-      !HorarioUtils.dentroDoLimite(...Consultorio.HORARIOS_FUNCIONAMENTO, agendamento.horaInicial)
-      || !HorarioUtils.dentroDoLimite(...Consultorio.HORARIOS_FUNCIONAMENTO, agendamento.horaFinal)
+      !agendamento.horaInicial.dentroDoLimite(...Consultorio.HORARIOS_FUNCIONAMENTO)
+      || !agendamento.horaFinal.dentroDoLimite(...Consultorio.HORARIOS_FUNCIONAMENTO)
     );
   }
 
@@ -51,14 +52,17 @@ module.exports = class Consultorio {
     return this.#agendamentos.some((agendamento) => {
       const dataAgendamento = DataHorarioUtils.toDate(
         agendamento.dataConsulta,
-        agendamento.horaFinal,
+        agendamento.horaFinal.hora,
       );
       return agendamento.cpfPaciente === cpf && dataAgendamento > dataAtual;
     });
   }
 
   validaAgendamento(agendamento, dataAtual = Date.now()) {
-    const dataInicio = DataHorarioUtils.toDate(agendamento.dataConsulta, agendamento.horaInicial);
+    const dataInicio = DataHorarioUtils.toDate(
+      agendamento.dataConsulta,
+      agendamento.horaInicial.hora,
+    );
     if (dataInicio < dataAtual) {
       throw new Error('só é possível fazer agendamentos para o futuro');
     }
@@ -70,8 +74,8 @@ module.exports = class Consultorio {
     }
     if (this.horarioOcupado(
       agendamento.dataConsulta,
-      agendamento.horaInicial,
-      agendamento.horaFinal,
+      agendamento.horaInicial.hora,
+      agendamento.horaFinal.hora,
     )) {
       throw new Error('horário já reservado');
     }

@@ -1,4 +1,5 @@
 const AgendamentoValidator = require('../validators/AgendamentoValidator');
+const HoraAgendamento = require('./HoraAgendamento');
 
 module.exports = class Agendamento {
   #cpfPaciente;
@@ -9,11 +10,17 @@ module.exports = class Agendamento {
 
   #horaFinal;
 
-  constructor(cpfPaciente, dataConsulta, horaInicial, horaFinal) {
+  /**
+   * @param {string} cpfPaciente
+   * @param {string} dataConsulta
+   * @param {object} horaInicialStr
+   * @param {object} horaFinalStr
+  */
+  constructor(cpfPaciente, dataConsulta, horaInicialStr, horaFinalStr) {
     this.#cpfPaciente = cpfPaciente;
     this.#dataConsulta = dataConsulta;
-    this.#horaInicial = horaInicial;
-    this.#horaFinal = horaFinal;
+    this.#horaInicial = new HoraAgendamento(horaInicialStr);
+    this.#horaFinal = new HoraAgendamento(horaFinalStr);
     AgendamentoValidator.valida(this);
   }
 
