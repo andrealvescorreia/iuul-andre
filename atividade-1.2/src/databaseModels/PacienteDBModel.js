@@ -23,8 +23,8 @@ module.exports = class PacientesTable {
 
   static findByKeyAndDelete(chave, valor) {
     const pacientes = PacientesTable.#pacientes.filter((paciente) => paciente[chave] !== valor);
-    if (pacientes === PacientesTable.#pacientes) return false;
+    const pacienteApagado = PacientesTable.findByKey(chave, valor);
     PacientesTable.#pacientes = pacientes;
-    return true;
+    return pacienteApagado;
   }
 };
