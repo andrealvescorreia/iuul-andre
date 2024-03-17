@@ -47,7 +47,7 @@ test('não salva paciente com data nascimento que não segue o formato', () => {
   const res = {};
   pacienteController.save({ body: paciente }, res);
   expect(res.success).toBe(false);
-  expect(res.errors).toEqual(['data nascimento não está no formato DD/MM/AAAA']);
+  expect(res.errors).toEqual(['data nascimento inválida']);
 });
 
 test('não salva paciente com data nascimento inválida', () => {
