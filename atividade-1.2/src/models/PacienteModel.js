@@ -1,4 +1,3 @@
-const PacientesTable = require('../database/PacientesTable');
 const DataUtils = require('../utils/DataUtils');
 const CPFValidator = require('../validators/CPFValidator');
 const DataValidator = require('../validators/DataValidator');
@@ -6,10 +5,11 @@ const DataValidator = require('../validators/DataValidator');
 module.exports = class PacienteModel {
   IDADE_MINIMA = 13;
 
-  constructor(body) {
+  constructor(body, databaseModel) {
     this.body = body;
     this.errors = [];
     this.paciente = null;
+    this.databaseModel = databaseModel;
   }
 
   checaCamposObrigatórios() {
@@ -55,6 +55,6 @@ module.exports = class PacienteModel {
     if (this.errors.length > 0) return;
 
     // acessa o 'banco de dados';
-    this.paciente = PacientesTable.create(this.body);
+    this.paciente = this.databaseModel.create(this.body);
   }
 };

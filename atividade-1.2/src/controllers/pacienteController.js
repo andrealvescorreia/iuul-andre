@@ -1,8 +1,9 @@
 const PacienteModel = require('../models/PacienteModel');
+const PacientesTable = require('../database/PacientesTable');
 
 exports.save = (req, res) => {
   try {
-    const paciente = new PacienteModel(req.body);
+    const paciente = new PacienteModel(req.body, PacientesTable);
     paciente.save();
 
     if (paciente.errors.length > 0) {
