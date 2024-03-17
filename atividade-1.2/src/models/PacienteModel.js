@@ -26,7 +26,10 @@ module.exports = class PacienteModel {
   }
 
   validaData() {
-    if (!DataValidator.valida(this.body.dataNascimento)) this.errors.push('data nascimento inválida');
+    if (!DataValidator.valida(this.body.dataNascimento)) {
+      this.errors.push('data nascimento inválida');
+      return;
+    }
     const idade = DataUtils.calculaIdade(this.body.dataNascimento);
     if (idade < this.IDADE_MINIMA) this.errors.push(`idade inferior a idade mínima de ${this.IDADE_MINIMA}`);
   }
