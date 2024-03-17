@@ -12,20 +12,10 @@ module.exports = class Paciente {
     this.databaseModel = databaseModel;
   }
 
-  checaCamposObrigatórios() {
-    if (!this.body.cpf) {
-      this.errors.push('cpf é obrigatório');
-      return;
-    }
-    if (!this.body.nome) {
-      this.errors.push('nome é obrigatório');
-    }
+  validaData() {
     if (!this.body.dataNascimento) {
       this.errors.push('dataNascimento é obrigatório');
     }
-  }
-
-  validaData() {
     if (!DataValidator.valida(this.body.dataNascimento)) {
       this.errors.push('data nascimento inválida');
       return;
@@ -35,16 +25,23 @@ module.exports = class Paciente {
   }
 
   validaCpf() {
+    if (!this.body.cpf) {
+      this.errors.push('cpf é obrigatório');
+      return;
+    }
     const cpf = new CPFValidator(this.body.cpf);
     if (!cpf.valido()) this.errors.push('cpf inválido');
   }
 
   validaNome() {
+    if (!this.body.nome) {
+      this.errors.push('nome é obrigatório');
+      return;
+    }
     if (this.body.nome.length < 5) this.errors.push('nome deve ter ao menos 5 caracteres');
   }
 
   validate() {
-    this.checaCamposObrigatórios();
     this.validaNome();
     this.validaCpf();
     this.validaData();
