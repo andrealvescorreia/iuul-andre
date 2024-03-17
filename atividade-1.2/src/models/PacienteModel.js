@@ -1,8 +1,11 @@
 const PacientesTable = require('../database/PacientesTable');
+const DataUtils = require('../utils/DataUtils');
 const CPFValidator = require('../validators/CPFValidator');
 const DataValidator = require('../validators/DataValidator');
 
 module.exports = class PacienteModel {
+  IDADE_MINIMA = 13;
+
   constructor(body) {
     this.body = body;
     this.errors = [];
@@ -24,6 +27,8 @@ module.exports = class PacienteModel {
 
   validaData() {
     if (!DataValidator.valida(this.body.dataNascimento)) this.errors.push('data nascimento inválida');
+    const idade = DataUtils.calculaIdade(this.body.dataNascimento);
+    if (idade < this.IDADE_MINIMA) this.errors.push(`idade inferior a idade mínima de ${this.IDADE_MINIMA}`);
   }
 
   validaCpf() {
