@@ -5,11 +5,12 @@ const DataValidator = require('../validators/DataValidator');
 module.exports = class Paciente {
   IDADE_MINIMA = 13;
 
-  constructor(body, databaseModel) {
+  constructor(body, pacienteModel, agendamentoModel) {
     this.body = body;
     this.errors = [];
     this.paciente = null;
-    this.databaseModel = databaseModel;
+    this.pacienteModel = pacienteModel;
+    this.agendamentoModel = agendamentoModel;
   }
 
   validaData() {
@@ -52,6 +53,13 @@ module.exports = class Paciente {
     if (this.errors.length > 0) return;
 
     // acessa o 'banco de dados';
-    this.paciente = this.databaseModel.create(this.body);
+    this.paciente = this.pacienteModel.create(this.body);
+  }
+
+  delete(cpf) {
+    if (typeof cpf !== 'string') return null;
+    const pacienteApagado = this.pacienteModel.findByKeyAndDelete('cpf', cpf);
+    this.paciente = null;
+    return pacienteApagado;
   }
 };
