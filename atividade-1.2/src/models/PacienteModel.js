@@ -2,7 +2,7 @@ const DataUtils = require('../utils/DataUtils');
 const CPFValidator = require('../validators/CPFValidator');
 const DataValidator = require('../validators/DataValidator');
 
-module.exports = class PacienteModel {
+module.exports = class Paciente {
   IDADE_MINIMA = 13;
 
   constructor(body, databaseModel) {
