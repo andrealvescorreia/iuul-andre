@@ -80,6 +80,10 @@ module.exports = class Agendamento {
     if (this.pacienteTemAgendamentoFuturo()) {
       this.errors.push('paciente tem uma consulta pendente');
     }
+    const dataInicio = DataHoraUtils.toDate(this.body.dataConsulta, this.body.horaInicio);
+    if (dataInicio < Date.now()) {
+      this.errors.push('só é possível marcar consultas para o futuro');
+    }
   }
 
   pacienteTemAgendamentoFuturo(dataAtual = Date.now()) {
@@ -108,7 +112,7 @@ module.exports = class Agendamento {
     this.validaData();
     this.validaHoraInicio();
     this.validaHoraFim();
-    this.validaHorario();
+    if (this.errors.length === 0) this.validaHorario();
   }
 
   save() {

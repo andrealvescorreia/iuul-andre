@@ -145,6 +145,11 @@ describe('teste não salva agendamento', () => {
     criaAgendamento();
     expect(agendamento.errors).toEqual(['horário ocupado']);
   });
+  test('horario antecede data e hora atual', () => {
+    agendamentoBody.dataConsulta = '12/12/2012';
+    criaAgendamento();
+    expect(agendamento.errors).toEqual(['só é possível marcar consultas para o futuro']);
+  });
   test('paciente já tem consulta marcada para o futuro', () => {
     agendamentoMock.find = () => [{
       cpfPaciente: '91523518235',
