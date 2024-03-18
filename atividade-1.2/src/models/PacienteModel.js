@@ -31,7 +31,14 @@ module.exports = class Paciente {
       return;
     }
     const cpf = new CPFValidator(this.body.cpf);
-    if (!cpf.valido()) this.errors.push('cpf inválido');
+    if (!cpf.valido()) {
+      this.errors.push('cpf inválido');
+      return;
+    }
+    const pacienteExistente = this.pacienteModel.findByKey('cpf', this.body.cpf);
+    if (pacienteExistente) {
+      this.errors.push('paciente com cpf já cadastrado');
+    }
   }
 
   validaNome() {
