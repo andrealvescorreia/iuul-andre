@@ -70,9 +70,12 @@ module.exports = class Agendamento {
   }
 
   validaHorario() {
-    if (Number(this.body.horaFim) <= Number(this.body.horaInicio)) {
+    if (this.horaFimAntecedeHoraInicio()) {
       this.errors.push('hora fim antecede hora inicio');
       return;
+    }
+    if (this.agendamentoEstaNoPassado()) {
+      this.errors.push('só é possível marcar consultas para o futuro');
     }
     if (this.horarioOcupado()) {
       this.errors.push('horário ocupado');
@@ -80,10 +83,15 @@ module.exports = class Agendamento {
     if (this.pacienteTemAgendamentoFuturo()) {
       this.errors.push('paciente tem uma consulta pendente');
     }
+  }
+
+  horaFimAntecedeHoraInicio() {
+    return Number(this.body.horaFim) <= Number(this.body.horaInicio);
+  }
+
+  agendamentoEstaNoPassado() {
     const dataInicio = DataHoraUtils.toDate(this.body.dataConsulta, this.body.horaInicio);
-    if (dataInicio < Date.now()) {
-      this.errors.push('só é possível marcar consultas para o futuro');
-    }
+    return dataInicio < Date.now();
   }
 
   pacienteTemAgendamentoFuturo(dataAtual = Date.now()) {
