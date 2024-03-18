@@ -3,7 +3,14 @@ const Paciente = require('../constructors/Paciente');
 module.exports = class PacientesTable {
   static #pacientes = [];
 
+  static #PRIMARY_KEY = 'cpf';
+
   static create(body) {
+    const pacienteExistente = PacientesTable.findByKey(
+      PacientesTable.#PRIMARY_KEY,
+      body[PacientesTable.#PRIMARY_KEY],
+    );
+    if (pacienteExistente) return null;
     const paciente = new Paciente(body);
     PacientesTable.#pacientes.push(paciente);
     return paciente;
