@@ -9,6 +9,7 @@ describe('criação de pacientes', () => {
       create(body) {
         this.body = body;
       },
+      findByKey() { return null; },
     };
 
     pacienteBody = {
@@ -38,6 +39,18 @@ describe('criação de pacientes', () => {
     const paciente = new Paciente(pacienteBody, pacienteMock);
     paciente.save();
     expect(paciente.errors).toContain('cpf inválido');
+    expect(pacienteMock.body).toEqual({});
+  });
+
+  test('não salva paciente cpf existente', () => {
+    pacienteMock.findByKey = () => ({
+      cpf: '91523518235',
+      nome: 'Maria Verdadeira',
+      dataNascimento: '10/10/2002',
+    });
+    const paciente = new Paciente(pacienteBody, pacienteMock);
+    paciente.save();
+    expect(paciente.errors).toContain('paciente com cpf já cadastrado');
     expect(pacienteMock.body).toEqual({});
   });
 
