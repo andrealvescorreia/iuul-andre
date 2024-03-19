@@ -1,4 +1,4 @@
-const Paciente = require('../src/models/PacienteModel');
+const Paciente = require('../../src/models/PacienteModel');
 
 describe('criação de pacientes', () => {
   let pacienteMock = {};

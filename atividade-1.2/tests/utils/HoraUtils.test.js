@@ -1,4 +1,4 @@
-const HoraUtils = require('../src/utils/HoraUtils');
+const HoraUtils = require('../../src/utils/HoraUtils');
 
 test('hora to date', () => {
   expect(HoraUtils.toDate('0800')).toEqual(new Date('1/1/1970 08:00:00'));

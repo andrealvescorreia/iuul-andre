@@ -1,4 +1,4 @@
-const DataHoraUtils = require('../src/utils/DataHoraUtils');
+const DataHoraUtils = require('../../src/utils/DataHoraUtils');
 
 test('para padrão internacional', () => {
   expect(DataHoraUtils.paraPadraoInternacional('31/01/1999')).toBe('01/31/1999');
