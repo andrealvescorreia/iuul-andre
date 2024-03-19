@@ -1,4 +1,4 @@
-const Agendamento = require('../../src/models/Agendamento');
+const Agendamento = require('../src/models/Agendamento');
 
 let agendamento;
 let agendamentoMock;

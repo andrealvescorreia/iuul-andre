@@ -1,10 +1,10 @@
 const HoraUtils = require('../src/utils/HoraUtils');
 
-test('horario to date', () => {
-  expect(HoraUtils.horarioToDate('0800')).toEqual(new Date('1/1/1970 08:00:00'));
+test('hora to date', () => {
+  expect(HoraUtils.toDate('0800')).toEqual(new Date('1/1/1970 08:00:00'));
 });
 
-test('horario obedece bloco de 15 minutos', () => {
+test('hora obedece bloco de 15 minutos', () => {
   expect(HoraUtils.obedeceBlocoDe15minutos('0015')).toBe(true);
   expect(HoraUtils.obedeceBlocoDe15minutos('0030')).toBe(true);
   expect(HoraUtils.obedeceBlocoDe15minutos('0045')).toBe(true);
@@ -14,7 +14,7 @@ test('horario obedece bloco de 15 minutos', () => {
   expect(HoraUtils.obedeceBlocoDe15minutos('2345')).toBe(true);
 });
 
-test('horario não obedece bloco de 15 minutos', () => {
+test('hora não obedece bloco de 15 minutos', () => {
   expect(HoraUtils.obedeceBlocoDe15minutos('0001')).toBe(false);
   expect(HoraUtils.obedeceBlocoDe15minutos('0014')).toBe(false);
   expect(HoraUtils.obedeceBlocoDe15minutos('0035')).toBe(false);
@@ -22,13 +22,13 @@ test('horario não obedece bloco de 15 minutos', () => {
   expect(HoraUtils.obedeceBlocoDe15minutos('2359')).toBe(false);
 });
 
-test('horario dentro do limite', () => {
+test('hora dentro do limite', () => {
   expect(HoraUtils.dentroDoLimite('0800', '1900', '0800')).toBe(true);
   expect(HoraUtils.dentroDoLimite('0800', '1900', '1859')).toBe(true);
   expect(HoraUtils.dentroDoLimite('0800', '1900', '1330')).toBe(true);
 });
 
-test('horario fora do limite', () => {
+test('hora fora do limite', () => {
   expect(HoraUtils.dentroDoLimite('0800', '1900', '0759')).toBe(false);
   expect(HoraUtils.dentroDoLimite('0800', '1900', '1900')).toBe(false);
   expect(HoraUtils.dentroDoLimite('0800', '1900', '2330')).toBe(false);
