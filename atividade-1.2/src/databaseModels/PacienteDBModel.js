@@ -30,10 +30,6 @@ module.exports = class PacienteDBModel {
     return PacienteDBModel.#pacientes.find((paciente) => paciente[chave] === valor);
   }
 
-  /* static findByKeyAndUpdate(chave, valor, paciente) {
-    // TODO
-  } */
-
   static findByKeyAndDelete(chave, valor) {
     const pacientes = PacienteDBModel.#pacientes.filter((paciente) => paciente[chave] !== valor);
     const pacienteApagado = PacienteDBModel.findByKey(chave, valor);
