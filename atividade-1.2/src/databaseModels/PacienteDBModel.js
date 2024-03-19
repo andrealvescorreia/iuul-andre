@@ -6,28 +6,28 @@ class Paciente {
   }
 }
 
-module.exports = class PacientesTable {
+module.exports = class PacienteDBModel {
   static #pacientes = [];
 
   static #PRIMARY_KEY = 'cpf';
 
   static create(body) {
-    const pacienteExistente = PacientesTable.findByKey(
-      PacientesTable.#PRIMARY_KEY,
-      body[PacientesTable.#PRIMARY_KEY],
+    const pacienteExistente = PacienteDBModel.findByKey(
+      PacienteDBModel.#PRIMARY_KEY,
+      body[PacienteDBModel.#PRIMARY_KEY],
     );
     if (pacienteExistente) return null;
     const paciente = new Paciente(body);
-    PacientesTable.#pacientes.push(paciente);
+    PacienteDBModel.#pacientes.push(paciente);
     return paciente;
   }
 
   static find() {
-    return PacientesTable.#pacientes;
+    return PacienteDBModel.#pacientes;
   }
 
   static findByKey(chave, valor) {
-    return PacientesTable.#pacientes.find((paciente) => paciente[chave] === valor);
+    return PacienteDBModel.#pacientes.find((paciente) => paciente[chave] === valor);
   }
 
   /* static findByKeyAndUpdate(chave, valor, paciente) {
@@ -35,9 +35,9 @@ module.exports = class PacientesTable {
   } */
 
   static findByKeyAndDelete(chave, valor) {
-    const pacientes = PacientesTable.#pacientes.filter((paciente) => paciente[chave] !== valor);
-    const pacienteApagado = PacientesTable.findByKey(chave, valor);
-    PacientesTable.#pacientes = pacientes;
+    const pacientes = PacienteDBModel.#pacientes.filter((paciente) => paciente[chave] !== valor);
+    const pacienteApagado = PacienteDBModel.findByKey(chave, valor);
+    PacienteDBModel.#pacientes = pacientes;
     return pacienteApagado;
   }
 };
