@@ -1,4 +1,4 @@
-const HoraValidator = require('../src/validators/HoraValidator');
+const HoraValidator = require('../../src/validators/HoraValidator');
 
 test('horario 00:00 é válido', () => {
   expect(HoraValidator.valida('0000')).toBe(true);

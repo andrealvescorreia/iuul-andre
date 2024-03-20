@@ -26,5 +26,6 @@ module.exports = {
     'import/first': 'off',
     'no-param-reassign': 'off',
     'no-plusplus': 'off',
+    'max-classes-per-file': 'off',
   },
 };
