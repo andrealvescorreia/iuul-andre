@@ -2,6 +2,7 @@ const DataValidator = require('../validators/DataValidator');
 const HoraValidator = require('../validators/HoraValidator');
 const HoraUtils = require('../utils/HoraUtils');
 const DataHoraUtils = require('../utils/DataHoraUtils');
+const DataUtils = require('../utils/DataUtils');
 
 module.exports = class Agendamento {
   HORARIO_FUNCIONAMENTO = ['0800', '1900'];
@@ -129,5 +130,23 @@ module.exports = class Agendamento {
 
     // acessa o 'banco de dados';
     this.agendamento = this.agendamentoModel.create(this.body);
+  }
+
+  find() {
+    return this.agendamentoModel.find();
+  }
+
+  #estaEntre(data, dataInicio, dataFim) {
+    return data >= dataInicio && data <= dataFim;
+  }
+
+  findByPeriod(dataInicio, dataFim) {
+    const agendamentos = this.agendamentoModel.find();
+    const dataInicioDate = DataUtils.converteStringEmData(dataInicio);
+    const dataFimDate = DataUtils.converteStringEmData(dataFim);
+    return agendamentos.filter((agendamento) => {
+      const agendamentoDate = DataUtils.converteStringEmData(agendamento.dataConsulta);
+      return this.#estaEntre(agendamentoDate, dataInicioDate, dataFimDate);
+    });
   }
 };
