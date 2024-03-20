@@ -11,10 +11,13 @@ const AgendamentoDBModel = require('../databaseModels/AgendamentoDBModel');
    * @param {string} req.body.nome
    * @param {string} req.body.dataNascimento - formato DD/MM/AAAA
    * @returns {object} res
-   * @returns {object} res.body - corpo da resposta, com o paciente criado
+   * @param {object} res.body - corpo da resposta, com o paciente criado
+   * @param {boolean} res.success
+   * @param {Array} res.errors
   */
 exports.save = (req) => {
   const res = {};
+  res.success = true;
   try {
     const paciente = new Paciente(req.body, PacienteDBModel, AgendamentoDBModel);
     paciente.save();
@@ -24,7 +27,6 @@ exports.save = (req) => {
       res.errors = paciente.errors;
       res.success = false;
     }
-    res.success = true;
   } catch (e) {
     console.log(e);
     res.success = false;
