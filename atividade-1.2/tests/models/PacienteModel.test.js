@@ -195,23 +195,119 @@ describe('consulta futura', () => {
 });
 
 describe('deleção de pacientes', () => {
+  const cpfPaciente = '91523518235';
+  let pacientes = [];
   let pacienteMock = {};
+  let agendamentoMock = {};
+  let agendamentos = [];
   beforeEach(() => {
+    pacientes = [
+      {
+        id: 1,
+        cpf: cpfPaciente,
+        nome: 'Maria',
+        dataNascimento: '10/10/2002',
+      },
+      {
+        id: 2,
+        cpf: '11111111111',
+        nome: 'José',
+        dataNascimento: '11/11/2003',
+      },
+      {
+        id: 3,
+        cpf: '454554545454',
+        nome: 'Jesus',
+        dataNascimento: '25/12/2004',
+      },
+    ];
+    agendamentos = [
+      {
+        id: 1,
+        cpfPaciente,
+        dataConsulta: '11/11/2015',
+        horaInicio: '1015',
+        horaFim: '1030',
+      },
+      {
+        id: 2,
+        cpfPaciente,
+        dataConsulta: '12/10/2016',
+        horaInicio: '1015',
+        horaFim: '1030',
+      },
+      {
+        id: 3,
+        cpfPaciente: '1111111111', // consulta de outro paciente, não deve ser deletada
+        dataConsulta: '12/10/2016',
+        horaInicio: '1015',
+        horaFim: '1030',
+      },
+      {
+        id: 4,
+        cpfPaciente: '22222222222', // consulta de outro paciente, não deve ser deletada
+        dataConsulta: '12/10/2035',
+        horaInicio: '1015',
+        horaFim: '1030',
+      },
+    ];
     pacienteMock = {
-      key: '',
-      value: '',
+      find() {
+        return pacientes;
+      },
+      findByKey() {
+        return pacientes[0];
+      },
       findByKeyAndDelete(key, value) {
         this.key = key;
         this.value = value;
-        return {};
+        return pacientes[0];
+      },
+    };
+    agendamentoMock = {
+      values: [],
+      find() {
+        return agendamentos;
+      },
+      findByKeyAndDelete(key, value) {
+        this.key = key;
+        this.values.push(value);
       },
     };
   });
-  test('deleta', () => {
-    const cpf = '91523518235';
-    const paciente = new Paciente({}, pacienteMock);
-    paciente.delete(cpf);
+  test('deleta paciente sem agendamentos', () => {
+    // bd tem apenas agendamentos de outros pacientes
+    agendamentoMock.find = () => [agendamentos[2], agendamentos[3]];
+    const paciente = new Paciente({}, pacienteMock, agendamentoMock);
+    expect(paciente.delete(cpfPaciente)).toEqual(pacientes[0]);
+
     expect(pacienteMock.key).toBe('cpf');
-    expect(pacienteMock.value).toBe(cpf);
+    expect(pacienteMock.value).toBe(cpfPaciente);
+    expect(agendamentoMock.values).toEqual([]);
+  });
+
+  test('deleta paciente com consultas já feitas', () => {
+    const paciente = new Paciente({}, pacienteMock, agendamentoMock);
+    paciente.delete(cpfPaciente);
+    expect(agendamentoMock.key).toBe('id');
+    expect(agendamentoMock.values).toEqual([1, 2]);
+  });
+
+  test('NÃO deleta paciente com consulta pendente', () => {
+    agendamentos[0].dataConsulta = '10/10/2035';// consulta futura
+    const paciente = new Paciente({}, pacienteMock, agendamentoMock);
+    expect(paciente.delete(cpfPaciente)).toBe(null);
+    expect(paciente.errors).toEqual(['paciente não pôde ser deletado pois tem uma consulta pendente']);
+    expect(pacienteMock.value).toBe(undefined);
+    expect(agendamentoMock.values).toEqual([]);
+  });
+
+  test('NÃO deleta paciente não encontrado', () => {
+    pacienteMock.findByKey = () => null;
+    const paciente = new Paciente({}, pacienteMock, agendamentoMock);
+    expect(paciente.delete(cpfPaciente)).toBe(null);
+    expect(paciente.errors).toEqual(['paciente não pôde ser deletado pois cpf não foi encontrado']);
+    expect(pacienteMock.value).toBe(undefined);
+    expect(agendamentoMock.values).toEqual([]);
   });
 });
