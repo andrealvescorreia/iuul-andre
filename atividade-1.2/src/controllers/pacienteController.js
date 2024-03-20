@@ -2,11 +2,23 @@ const Paciente = require('../models/Paciente');
 const PacienteDBModel = require('../databaseModels/PacienteDBModel');
 const AgendamentoDBModel = require('../databaseModels/AgendamentoDBModel');
 
+/**
+   * cria um paciente
+   *
+   * @param {object} req
+   * @param {object} req.body - corpo da requisição
+   * @param {string} req.body.cpf - sem caracteres especiais
+   * @param {string} req.body.nome
+   * @param {string} req.body.dataNascimento - formato DD/MM/AAAA
+   * @returns {object} res
+   * @returns {object} res.body - corpo da resposta, com o paciente criado
+  */
 exports.save = (req) => {
   const res = {};
   try {
     const paciente = new Paciente(req.body, PacienteDBModel, AgendamentoDBModel);
     paciente.save();
+    res.body = paciente.paciente;
 
     if (paciente.errors.length > 0) {
       res.errors = paciente.errors;
@@ -21,6 +33,17 @@ exports.save = (req) => {
   return res;
 };
 
+/**
+   * retorna pacientes
+   *
+   * @param {object} req
+   * @param {object} req.body - corpo da requisição
+   * @param {string} req.body.orderBy - parâmetro de ordenação opicional. Pode ser 'nome' ou 'cpf'
+   * @returns {object} res
+   * @returns {object} res.body - corpo da resposta, com os pacientes encontrados
+   * @returns {boolean} res.success
+   * @returns {Array} res.errors
+  */
 exports.index = (req) => {
   const res = {};
   try {
@@ -42,11 +65,22 @@ exports.index = (req) => {
   return res;
 };
 
+/**
+   * deleta um agendamento
+   *
+   * @param {object} req
+   * @param {object} req.body - corpo da requisição
+   * @param {string} req.body.cpf - cpf do paciente a ser deletado.
+   * @returns {object} res
+   * @returns {object} res.body - corpo da resposta, com o paciente deletado
+   * @returns {boolean} res.success
+   * @returns {Array} res.errors
+  */
 exports.delete = (req) => {
   const res = {};
   try {
     const paciente = new Paciente(req.body, PacienteDBModel, AgendamentoDBModel);
-    paciente.delete(req.body.cpf);
+    res.body = paciente.delete(req.body.cpf);
     if (paciente.errors.length > 0) {
       res.errors = paciente.errors;
       res.success = false;
