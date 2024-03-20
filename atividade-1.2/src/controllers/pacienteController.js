@@ -66,6 +66,31 @@ exports.index = (req) => {
 };
 
 /**
+   * retorna um paciente
+   *
+   * @param {object} req
+   * @param {object} req.body - corpo da requisição
+   * @param {string} req.body.cpf
+   * @returns {object} res
+   * @returns {object} res.body - corpo da resposta, com os pacientes encontrados
+   * @returns {boolean} res.success
+   * @returns {Array} res.errors
+  */
+exports.show = (req) => {
+  const res = {};
+  try {
+    const p = new Paciente(null, PacienteDBModel, AgendamentoDBModel);
+    res.body = p.findByCpf(req.body.cpf);
+    res.success = !!res.body;
+  } catch (e) {
+    console.log(e);
+    res.success = false;
+    res.errors = [e.message];
+  }
+  return res;
+};
+
+/**
    * deleta um agendamento
    *
    * @param {object} req
