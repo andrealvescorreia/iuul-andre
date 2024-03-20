@@ -106,7 +106,7 @@ module.exports = class Paciente {
     const consultaFutura = agendamentos.find((agendamento) => {
       const dataAgendamento = DataHoraUtils.toDate(
         agendamento.dataConsulta,
-        agendamento.horaFim,
+        agendamento.horaInicio,
       );
       return agendamento.cpfPaciente === cpf && dataAgendamento > dataAtual;
     });
