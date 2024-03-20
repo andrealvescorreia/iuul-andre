@@ -64,8 +64,19 @@ module.exports = class Paciente {
     this.paciente = this.pacienteModel.create(this.body);
   }
 
-  find() {
-    return this.pacienteModel.find();
+  find(opçãoChaveOrdenação) {
+    if (!opçãoChaveOrdenação) return this.pacienteModel.find();
+    return this.#ordenarPacientesPor(opçãoChaveOrdenação);
+  }
+
+  #ordenarPacientesPor(chave) {
+    return this.pacienteModel.find().sort((a, b) => {
+      const valorA = a[chave].toUpperCase();
+      const valorB = b[chave].toUpperCase();
+      if (valorA < valorB) return -1;
+      if (valorA > valorB) return 1;
+      return 0;
+    });
   }
 
   findByCpf(cpf) {
