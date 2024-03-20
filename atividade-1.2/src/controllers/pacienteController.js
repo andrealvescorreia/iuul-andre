@@ -93,7 +93,7 @@ exports.show = (req) => {
 };
 
 /**
-   * deleta um agendamento
+   * deleta um paciente
    *
    * @param {object} req
    * @param {object} req.body - corpo da requisição
@@ -105,14 +105,14 @@ exports.show = (req) => {
   */
 exports.delete = (req) => {
   const res = {};
+  res.success = true;
   try {
-    const paciente = new Paciente(req.body, PacienteDBModel, AgendamentoDBModel);
+    const paciente = new Paciente({}, PacienteDBModel, AgendamentoDBModel);
     res.body = paciente.delete(req.body.cpf);
     if (paciente.errors.length > 0) {
       res.errors = paciente.errors;
       res.success = false;
     }
-    res.success = true;
   } catch (e) {
     console.log(e);
     res.success = false;
