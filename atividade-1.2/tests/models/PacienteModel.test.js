@@ -73,17 +73,28 @@ describe('encontrar pacientes', () => {
       dataNascimento: '10/10/2002',
     },
     {
-      id: 2,
-      cpf: '919191991919',
-      nome: 'José',
-      dataNascimento: '11/11/2003',
-    },
-    {
       id: 3,
       cpf: '454554545454',
       nome: 'Jesus',
       dataNascimento: '25/12/2004',
     },
+    {
+      id: 2,
+      cpf: '919191991919',
+      nome: 'José',
+      dataNascimento: '11/11/2003',
+    },
+
+  ];
+  const pacientesOrdenadosPorNome = [
+    pacientes[1],
+    pacientes[2],
+    pacientes[0],
+  ];
+  const pacientesOrdenadosPorCpf = [
+    pacientes[1],
+    pacientes[0],
+    pacientes[2],
   ];
   beforeEach(() => {
     pacienteMock = {
@@ -101,6 +112,16 @@ describe('encontrar pacientes', () => {
   test('encontra pacientes', () => {
     const p = new Paciente(null, pacienteMock);
     expect(p.find()).toEqual(pacientes);
+  });
+
+  test('encontra pacientes ordenados por nome', () => {
+    const p = new Paciente(null, pacienteMock);
+    expect(p.find('nome')).toEqual(pacientesOrdenadosPorNome);
+  });
+
+  test('encontra pacientes ordenados por cpf', () => {
+    const p = new Paciente(null, pacienteMock);
+    expect(p.find('cpf')).toEqual(pacientesOrdenadosPorCpf);
   });
 
   test('encontra por cpf', () => {
