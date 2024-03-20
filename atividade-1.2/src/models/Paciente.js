@@ -63,6 +63,14 @@ module.exports = class Paciente {
     this.paciente = this.pacienteModel.create(this.body);
   }
 
+  find() {
+    return this.pacienteModel.find();
+  }
+
+  findByCpf(cpf) {
+    return this.pacienteModel.findByKey('cpf', cpf);
+  }
+
   delete(cpf) {
     if (typeof cpf !== 'string') return null;
     const pacienteApagado = this.pacienteModel.findByKeyAndDelete('cpf', cpf);
