@@ -73,9 +73,30 @@ module.exports = class Paciente {
   }
 
   delete(cpf) {
-    if (typeof cpf !== 'string') return null;
+    if (typeof cpf !== 'string') {
+      this.errors.push('cpf deve ser string');
+      return null;
+    }
+    const pacienteEncontrado = this.pacienteModel.findByKey('cpf', cpf);
+    if (!pacienteEncontrado) {
+      this.errors.push('paciente não pôde ser deletado pois cpf não foi encontrado');
+      return null;
+    }
+    if (this.consultaFutura(cpf)) {
+      this.errors.push('paciente não pôde ser deletado pois tem uma consulta pendente');
+      return null;
+    }
+    this.#deleteAgendamentos(cpf);
     const pacienteApagado = this.pacienteModel.findByKeyAndDelete('cpf', cpf);
     return pacienteApagado;
+  }
+
+  #deleteAgendamentos(cpf) {
+    const agendamentos = this.agendamentoModel.find();
+    const agendamentosCpf = agendamentos.filter((agendamento) => agendamento.cpfPaciente === cpf);
+    agendamentosCpf.forEach((agendamento) => {
+      this.agendamentoModel.findByKeyAndDelete('id', agendamento.id);
+    });
   }
 
   consultaFutura(cpf) {
