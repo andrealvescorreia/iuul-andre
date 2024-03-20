@@ -230,11 +230,6 @@ describe('encontrar agendamentos', () => {
       find() {
         return agendamentos;
       },
-      findByKey(key, value) {
-        this.key = key;
-        this.value = value;
-        return agendamentos[0];
-      },
     };
   });
 
