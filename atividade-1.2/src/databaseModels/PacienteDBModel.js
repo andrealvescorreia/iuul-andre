@@ -31,7 +31,7 @@ module.exports = class PacienteDBModel {
   }
 
   static findByKey(chave, valor) {
-    return PacienteDBModel.#pacientes.find((paciente) => paciente[chave] === valor);
+    return PacienteDBModel.#pacientes.find((paciente) => paciente[chave] === valor) || null;
   }
 
   static findByKeyAndDelete(chave, valor) {
