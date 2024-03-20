@@ -175,44 +175,55 @@ describe('encontrar agendamentos', () => {
       id: 2,
       cpfPaciente: '834834834348',
       dataConsulta: '11/10/2035',
-      horaInicio: '1030',
-      horaFim: '1045',
+      horaInicio: '1045',
+      horaFim: '1100',
     },
     {
       id: 3,
       cpfPaciente: '483483434811',
       dataConsulta: '11/10/2035',
-      horaInicio: '1045',
-      horaFim: '1000',
+      horaInicio: '1030',
+      horaFim: '1045',
     },
     {
       id: 4,
+      cpfPaciente: '838288111223',
+      dataConsulta: '10/12/2036',
+      horaInicio: '1045',
+      horaFim: '1100',
+    },
+    {
+      id: 5,
       cpfPaciente: '382382838288',
       dataConsulta: '12/10/2035',
       horaInicio: '1045',
       horaFim: '1100',
     },
     {
-      id: 5,
+      id: 6,
       cpfPaciente: '382838288111',
       dataConsulta: '13/10/2035',
       horaInicio: '1045',
       horaFim: '1100',
     },
     {
-      id: 6,
+      id: 7,
       cpfPaciente: '838288111223',
       dataConsulta: '14/10/2035',
       horaInicio: '1045',
       horaFim: '1100',
     },
-    {
-      id: 7,
-      cpfPaciente: '838288111223',
-      dataConsulta: '12/12/2035',
-      horaInicio: '1045',
-      horaFim: '1100',
-    },
+
+  ];
+
+  const agendamentosOrdenadosPorData = [
+    agendamentos[0],
+    agendamentos[2],
+    agendamentos[1],
+    agendamentos[4],
+    agendamentos[5],
+    agendamentos[6],
+    agendamentos[3],
   ];
   beforeEach(() => {
     agendamentoMock = {
@@ -229,7 +240,7 @@ describe('encontrar agendamentos', () => {
 
   test('encontra agendamentos', () => {
     const a = new Agendamento(null, agendamentoMock);
-    expect(a.find()).toEqual(agendamentos);
+    expect(a.find()).toEqual(agendamentosOrdenadosPorData);
   });
 
   test('encontra agendamentos por periodo', () => {
@@ -237,10 +248,10 @@ describe('encontrar agendamentos', () => {
     const periodoFim = '13/10/2035';
     const p = new Agendamento(null, agendamentoMock);
     expect(p.find(periodoInicio, periodoFim)).toEqual([
-      agendamentos[1],
-      agendamentos[2],
-      agendamentos[3],
-      agendamentos[4],
+      agendamentosOrdenadosPorData[1],
+      agendamentosOrdenadosPorData[2],
+      agendamentosOrdenadosPorData[3],
+      agendamentosOrdenadosPorData[4],
     ]);
   });
 });
