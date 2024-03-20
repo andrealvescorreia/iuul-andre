@@ -63,6 +63,54 @@ describe('criação de pacientes', () => {
   });
 });
 
+describe('encontrar pacientes', () => {
+  let pacienteMock = {};
+  const pacientes = [
+    {
+      id: 1,
+      cpf: '91523518235',
+      nome: 'Maria',
+      dataNascimento: '10/10/2002',
+    },
+    {
+      id: 2,
+      cpf: '919191991919',
+      nome: 'José',
+      dataNascimento: '11/11/2003',
+    },
+    {
+      id: 3,
+      cpf: '454554545454',
+      nome: 'Jesus',
+      dataNascimento: '25/12/2004',
+    },
+  ];
+  beforeEach(() => {
+    pacienteMock = {
+      find() {
+        return pacientes;
+      },
+      findByKey(key, value) {
+        this.key = key;
+        this.value = value;
+        return pacientes[0];
+      },
+    };
+  });
+
+  test('encontra pacientes', () => {
+    const p = new Paciente(null, pacienteMock);
+    expect(p.find()).toEqual(pacientes);
+  });
+
+  test('encontra por cpf', () => {
+    const p = new Paciente(null, pacienteMock);
+    expect(p.findByCpf('91523518235')).toEqual(pacientes[0]);
+    expect(pacienteMock.key).toBe('cpf');
+    expect(pacienteMock.value).toBe('91523518235');
+  });
+});
+
 describe('deleção de pacientes', () => {
   let pacienteMock = {};
   beforeEach(() => {
