@@ -132,15 +132,12 @@ module.exports = class Agendamento {
     this.agendamento = this.agendamentoModel.create(this.body);
   }
 
-  find() {
-    return this.agendamentoModel.find();
+  find(dataInicio, dataFim) {
+    if (!dataInicio || !dataFim) return this.agendamentoModel.find();
+    return this.#findByPeriod(dataInicio, dataFim);
   }
 
-  #estaEntre(data, dataInicio, dataFim) {
-    return data >= dataInicio && data <= dataFim;
-  }
-
-  findByPeriod(dataInicio, dataFim) {
+  #findByPeriod(dataInicio, dataFim) {
     const agendamentos = this.agendamentoModel.find();
     const dataInicioDate = DataUtils.converteStringEmData(dataInicio);
     const dataFimDate = DataUtils.converteStringEmData(dataFim);
@@ -148,5 +145,9 @@ module.exports = class Agendamento {
       const agendamentoDate = DataUtils.converteStringEmData(agendamento.dataConsulta);
       return this.#estaEntre(agendamentoDate, dataInicioDate, dataFimDate);
     });
+  }
+
+  #estaEntre(data, dataInicio, dataFim) {
+    return data >= dataInicio && data <= dataFim;
   }
 };

@@ -236,7 +236,7 @@ describe('encontrar agendamentos', () => {
     const periodoInicio = '11/10/2035';
     const periodoFim = '13/10/2035';
     const p = new Agendamento(null, agendamentoMock);
-    expect(p.findByPeriod(periodoInicio, periodoFim)).toEqual([
+    expect(p.find(periodoInicio, periodoFim)).toEqual([
       agendamentos[1],
       agendamentos[2],
       agendamentos[3],
