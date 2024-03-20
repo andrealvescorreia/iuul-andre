@@ -32,6 +32,7 @@ exports.index = (req) => {
         paciente.consultaFutura = consultaFutura;
       }
     });
+    res.body = pacientes;
     res.success = true;
   } catch (e) {
     console.log(e);
