@@ -111,6 +111,89 @@ describe('encontrar pacientes', () => {
   });
 });
 
+describe('consulta futura', () => {
+  const cpfPaciente = '91523518235';
+  const pacienteMock = {};
+  const agendamentoMock = {};
+  const pacientes = [
+    {
+      id: 1,
+      cpf: cpfPaciente,
+      nome: 'Maria',
+      dataNascimento: '10/10/2002',
+    },
+    {
+      id: 2,
+      cpf: '11111111111',
+      nome: 'José',
+      dataNascimento: '11/11/2003',
+    },
+    {
+      id: 3,
+      cpf: '454554545454',
+      nome: 'Jesus',
+      dataNascimento: '25/12/2004',
+    },
+  ];
+
+  beforeEach(() => {
+    pacienteMock.find = () => pacientes;
+  });
+
+  test('tem consultas passadas mas não futura', () => {
+    const agendamentos = [
+      {
+        id: 1,
+        cpfPaciente,
+        dataConsulta: '10/10/2015',
+        horaInicio: '1015',
+        horaFim: '1030',
+      }, {
+        id: 2,
+        cpfPaciente,
+        dataConsulta: '11/11/2016',
+        horaInicio: '1015',
+        horaFim: '1030',
+      }, {
+        id: 3,
+        cpfPaciente: '11111111111',
+        dataConsulta: '11/11/2035',
+        horaInicio: '1015',
+        horaFim: '1030',
+      },
+    ];
+    agendamentoMock.find = () => agendamentos;
+    const p = new Paciente({}, pacienteMock, agendamentoMock);
+    expect(p.consultaFutura(cpfPaciente)).toEqual(null);
+  });
+  test('tem consultas passadas e uma futura', () => {
+    const agendamentos = [
+      {
+        id: 1,
+        cpfPaciente,
+        dataConsulta: '10/10/2015',
+        horaInicio: '1015',
+        horaFim: '1030',
+      }, {
+        id: 2,
+        cpfPaciente,
+        dataConsulta: '11/11/2035', // consulta futura
+        horaInicio: '1015',
+        horaFim: '1030',
+      }, {
+        id: 3,
+        cpfPaciente: '11111111111',
+        dataConsulta: '11/11/2035',
+        horaInicio: '1015',
+        horaFim: '1030',
+      },
+    ];
+    agendamentoMock.find = () => agendamentos;
+    const p = new Paciente({}, pacienteMock, agendamentoMock);
+    expect(p.consultaFutura(cpfPaciente)).toEqual(agendamentos[1]);
+  });
+});
+
 describe('deleção de pacientes', () => {
   let pacienteMock = {};
   beforeEach(() => {
