@@ -1,4 +1,5 @@
 const DataUtils = require('../utils/DataUtils');
+const DataHoraUtils = require('../utils/DataHoraUtils');
 const CPFValidator = require('../validators/CPFValidator');
 const DataValidator = require('../validators/DataValidator');
 
@@ -74,7 +75,21 @@ module.exports = class Paciente {
   delete(cpf) {
     if (typeof cpf !== 'string') return null;
     const pacienteApagado = this.pacienteModel.findByKeyAndDelete('cpf', cpf);
-    this.paciente = null;
     return pacienteApagado;
+  }
+
+  consultaFutura(cpf) {
+    // encontra a consulta do paciente
+    const agendamentos = this.agendamentoModel.find();
+    const dataAtual = Date.now();
+    const consultaFutura = agendamentos.find((agendamento) => {
+      const dataAgendamento = DataHoraUtils.toDate(
+        agendamento.dataConsulta,
+        agendamento.horaFim,
+      );
+      return agendamento.cpfPaciente === cpf && dataAgendamento > dataAtual;
+    });
+
+    return consultaFutura || null;
   }
 };
