@@ -1,25 +1,29 @@
-class Paciente {
-  constructor(cpf, nome, dataNascimento) {
-    this.cpf = cpf;
-    this.nome = nome;
-    this.dataNascimento = dataNascimento;
-  }
-}
-
 module.exports = class PacienteDBModel {
   static #pacientes = [];
 
+  static #id_count = 1;
+
   static #PRIMARY_KEY = 'cpf';
 
-  static create(body) {
+  /**
+   * Cria um paciente na base de dados
+   *
+   * @param {object} paciente
+   * @param {string} paciente.cpf
+   * @param {string} paciente.nome
+   * @param {string} paciente.dataNascimento
+   * @returns {object} paciente criado
+  */
+  static create(paciente) {
     const pacienteExistente = PacienteDBModel.findByKey(
       PacienteDBModel.#PRIMARY_KEY,
-      body[PacienteDBModel.#PRIMARY_KEY],
+      paciente[PacienteDBModel.#PRIMARY_KEY],
     );
     if (pacienteExistente) return null;
-    const paciente = new Paciente(body);
-    PacienteDBModel.#pacientes.push(paciente);
-    return paciente;
+    const novoPaciente = { ...paciente, id: PacienteDBModel.#id_count };
+    PacienteDBModel.#pacientes.push(novoPaciente);
+    PacienteDBModel.#id_count++;
+    return novoPaciente;
   }
 
   static find() {
