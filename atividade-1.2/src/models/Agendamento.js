@@ -133,8 +133,10 @@ module.exports = class Agendamento {
   }
 
   find(dataInicio, dataFim) {
-    if (!dataInicio || !dataFim) return this.agendamentoModel.find();
-    return this.#findByPeriod(dataInicio, dataFim);
+    let agendamentos;
+    if (!dataInicio || !dataFim) agendamentos = this.agendamentoModel.find();
+    else agendamentos = this.#findByPeriod(dataInicio, dataFim);
+    return this.#ordenarPorDataEHora(agendamentos);
   }
 
   #findByPeriod(dataInicio, dataFim) {
@@ -149,5 +151,13 @@ module.exports = class Agendamento {
 
   #estaEntre(data, dataInicio, dataFim) {
     return data >= dataInicio && data <= dataFim;
+  }
+
+  #ordenarPorDataEHora(agendamentos) {
+    return agendamentos.sort((a, b) => {
+      const dataHoraA = DataHoraUtils.toDate(a.dataConsulta, a.horaInicio);
+      const dataHoraB = DataHoraUtils.toDate(b.dataConsulta, b.horaInicio);
+      return dataHoraA - dataHoraB;
+    });
   }
 };
