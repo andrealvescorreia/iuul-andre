@@ -1,6 +1,7 @@
 const Paciente = require('../models/Paciente');
 const PacienteDBModel = require('../databaseModels/PacienteDBModel');
 const AgendamentoDBModel = require('../databaseModels/AgendamentoDBModel');
+const DataUtils = require('../utils/DataUtils');
 
 /**
    * cria um paciente
@@ -48,17 +49,21 @@ exports.save = (req) => {
   */
 exports.index = (req) => {
   const res = {};
+  res.success = true;
+  res.body = {};
   try {
     const p = new Paciente(null, PacienteDBModel, AgendamentoDBModel);
+
     const pacientes = p.find(req.body.orderBy);
     pacientes.forEach((paciente) => {
+      const idade = DataUtils.calculaIdade(paciente.dataNascimento);
+      paciente.idade = idade;
       const consultaFutura = p.consultaFutura(paciente.cpf);
       if (consultaFutura) {
         paciente.consultaFutura = consultaFutura;
       }
     });
     res.body = pacientes;
-    res.success = true;
   } catch (e) {
     console.log(e);
     res.success = false;
