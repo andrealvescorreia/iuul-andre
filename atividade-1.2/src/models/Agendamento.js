@@ -148,7 +148,7 @@ module.exports = class Agendamento {
     ));
 
     if (!agendamentoEncontrado) {
-      this.errors.push('não foi possível deletar pois agendamento não foi encontrado');
+      this.errors.push('não foi possível deletar pois o agendamento não foi encontrado');
       return null;
     }
 
