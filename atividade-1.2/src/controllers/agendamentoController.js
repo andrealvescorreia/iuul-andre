@@ -72,21 +72,27 @@ exports.delete = (req) => {
    * @param {string} req.body.periodo.dataInicio
    * @param {string} req.body.periodo.dataFim
    * @returns {object} res
-   * @returns {object} res.body - corpo da resposta, com as consultas encontradas
-   * @returns {boolean} res.success
-   * @returns {Array} res.errors
+   * @param {object} res.body - corpo da resposta, com as consultas encontradas
+   * @param {boolean} res.success
+   * @param {Array} res.errors
   */
-exports.index = () => {
+exports.index = (req) => {
   const res = {};
+  res.success = true;
   try {
     const a = new Agendamento(null, AgendamentoDBModel, PacienteDBModel);
-    const agendamentos = a.find();
+    let agendamentos;
+    const { periodo } = req.body;
+    if (periodo) {
+      agendamentos = a.find(periodo.dataInicio, periodo.dataFim);
+    } else {
+      agendamentos = a.find();
+    }
     agendamentos.forEach((agendamento) => {
       const paciente = PacienteDBModel.findByKey('cpf', agendamento.cpfPaciente);
       agendamento.nomePaciente = paciente.nome;
     });
     res.body = agendamentos;
-    res.success = true;
   } catch (e) {
     console.log(e);
     res.success = false;
