@@ -80,7 +80,12 @@ exports.index = () => {
   const res = {};
   try {
     const a = new Agendamento(null, AgendamentoDBModel, PacienteDBModel);
-    res.body = a.find();
+    const agendamentos = a.find();
+    agendamentos.forEach((agendamento) => {
+      const paciente = PacienteDBModel.findByKey('cpf', agendamento.cpfPaciente);
+      agendamento.nomePaciente = paciente.nome;
+    });
+    res.body = agendamentos;
     res.success = true;
   } catch (e) {
     console.log(e);
