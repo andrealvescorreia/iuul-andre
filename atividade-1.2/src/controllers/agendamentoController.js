@@ -34,6 +34,36 @@ exports.save = (req) => {
 };
 
 /**
+   * exclui um agendamento
+   *
+   * @param {object} req
+   * @param {object} req.body - corpo da requisição
+   * @param {string} req.body.cpfPaciente - sem caracteres especiais
+   * @param {string} req.body.dataConsulta - formato DD/MM/AAAA
+   * @param {string} req.body.horaInicio - formato HHMM
+   * @returns {object} res
+   * @returns {object} res.body - corpo da resposta, com o agendamento criado
+  */
+exports.delete = (req) => {
+  const res = {};
+  try {
+    const agendamento = new Agendamento(req.body, AgendamentoDBModel, PacienteDBModel);
+    agendamento.delete();
+    res.body = agendamento.agendamento;
+    if (agendamento.errors.length > 0) {
+      res.errors = agendamento.errors;
+      res.success = false;
+    }
+    res.success = true;
+  } catch (e) {
+    console.log(e);
+    res.success = false;
+    res.errors = [e.message];
+  }
+  return res;
+};
+
+/**
    * retorna agendamentos de consultas em ordem de data crescente
    *
    * @param {object} req
