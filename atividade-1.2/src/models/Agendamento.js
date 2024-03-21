@@ -139,6 +139,23 @@ module.exports = class Agendamento {
     return this.#ordenarPorDataEHora(agendamentos);
   }
 
+  delete() {
+    const agendamentos = this.agendamentoModel.find();
+    const agendamentoEncontrado = agendamentos.find((agendamento) => (
+      agendamento.cpfPaciente === this.body.cpfPaciente
+      && agendamento.dataConsulta === this.body.dataConsulta
+      && agendamento.dataInicio === this.body.dataInicio
+    ));
+
+    if (!agendamentoEncontrado) {
+      this.errors.push('não foi possível deletar pois agendamento não foi encontrado');
+      return null;
+    }
+
+    this.agendamentoModel.findByKeyAndDelete('id', agendamentoEncontrado.id);
+    return agendamentoEncontrado;
+  }
+
   #findByPeriod(dataInicio, dataFim) {
     const agendamentos = this.agendamentoModel.find();
     const dataInicioDate = DataUtils.converteStringEmData(dataInicio);
