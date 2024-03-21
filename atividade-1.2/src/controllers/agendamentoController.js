@@ -16,6 +16,7 @@ const PacienteDBModel = require('../databaseModels/PacienteDBModel');
   */
 exports.save = (req) => {
   const res = {};
+  res.success = true;
   try {
     const agendamento = new Agendamento(req.body, AgendamentoDBModel, PacienteDBModel);
     agendamento.save();
@@ -24,7 +25,6 @@ exports.save = (req) => {
       res.errors = agendamento.errors;
       res.success = false;
     }
-    res.success = true;
   } catch (e) {
     console.log(e);
     res.success = false;
@@ -46,6 +46,7 @@ exports.save = (req) => {
   */
 exports.delete = (req) => {
   const res = {};
+  res.success = true;
   try {
     const agendamento = new Agendamento(req.body, AgendamentoDBModel, PacienteDBModel);
     agendamento.delete();
@@ -54,7 +55,6 @@ exports.delete = (req) => {
       res.errors = agendamento.errors;
       res.success = false;
     }
-    res.success = true;
   } catch (e) {
     console.log(e);
     res.success = false;
