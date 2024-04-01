@@ -27,5 +27,6 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-plusplus': 'off',
     'max-classes-per-file': 'off',
+    'import/extensions': 'off',
   },
 };
