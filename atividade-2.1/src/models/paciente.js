@@ -62,11 +62,11 @@ class Paciente {
       errors.push(OperationErrors.INVALID_PATIENT_BIRTHDATE);
     }
 
-    if (rendaMensal && rendaMensal <= 0) {
+    if (rendaMensal != null && rendaMensal <= 0) {
       errors.push(OperationErrors.INVALID_PATIENT_MONTHLY_INCOME);
     }
 
-    if (estadoCivil && !Paciente.#estadoCivilValido(estadoCivil)) {
+    if (estadoCivil != null && !Paciente.#estadoCivilValido(estadoCivil)) {
       errors.push(OperationErrors.INVALID_PATIENT_MARITAL_STATUS);
     }
 
