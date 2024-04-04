@@ -1,0 +1,27 @@
+[
+  {
+    "nome": "Pedr",
+    "cpf": "123",
+    "dt_nascimento": "15022016",
+    "renda_mensal": "0",
+    "estado_civil": "L"
+  },
+  {},
+  {
+    "nome": "Andre Rocha",
+    "cpf": "oi",
+    "dt_nascimento": "ooii",
+    "renda_mensal": "oi"
+  },
+  {
+    "cpf": "30228380001",
+    "dt_nascimento": "04121972",
+    "renda_mensal": "-5850,27"
+  },
+  {
+    "nome": "Joice Medeiros",
+    "cpf": "31777563097",
+    "dt_nascimento": "21071991",
+    "renda_mensal": "-10254.48"
+  }
+]
