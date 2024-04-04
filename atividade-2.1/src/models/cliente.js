@@ -50,7 +50,7 @@ class Cliente {
     return (ec === 'c' || ec === 's' || ec === 'v' || ec === 'd');
   }
 
-  static create(cpf, nome, dtNascimento, rendaMensal = null, estadoCivil = null) {
+  static create(cpf, nome, dtNascimento, rendaMensal, estadoCivil) {
     const errors = [];
     // Executa as validações do Cliente
     if (!validaCPF(cpf)) errors.push({ code: OperationErrors.INVALID_CLIENT_DOCUMENT, field: 'cpf' });
@@ -67,11 +67,11 @@ class Cliente {
       errors.push({ code: OperationErrors.INVALID_CLIENT_BIRTHDATE, field: 'dtNascimento' });
     }
 
-    if (rendaMensal != null && rendaMensal <= 0) {
+    if (rendaMensal !== undefined && rendaMensal <= 0) {
       errors.push({ code: OperationErrors.INVALID_CLIENT_MONTHLY_INCOME, field: 'rendaMensal' });
     }
 
-    if (estadoCivil != null && !Cliente.#estadoCivilValido(estadoCivil)) {
+    if (estadoCivil !== undefined && !Cliente.#estadoCivilValido(estadoCivil)) {
       errors.push({ code: OperationErrors.INVALID_CLIENT_MARITAL_STATUS, field: 'estadoCivil' });
     }
 
@@ -81,9 +81,9 @@ class Cliente {
       : { failure: errors };
   }
 
-  static #missingFields(obj, fields = ['cpf', 'nome', 'dtNascimento']) {
+  static #missingFields(obj, requiredFields = ['cpf', 'nome', 'dtNascimento']) {
     const missingFields = [];
-    fields.forEach((field) => {
+    requiredFields.forEach((field) => {
       if (!(field in obj) || obj[field] === undefined) {
         missingFields.push(field);
       }
@@ -93,7 +93,7 @@ class Cliente {
 
   static createFromObject(clienteObj) {
     const missingFields = Cliente.#missingFields(clienteObj);
-    if (missingFields > 0) {
+    if (missingFields.length > 0) {
       const errors = [];
       missingFields.forEach((field) => {
         errors.push({

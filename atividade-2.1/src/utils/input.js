@@ -15,8 +15,10 @@ function readClientsFromJson(path) {
       const client = {
         nome: rawClient.nome,
         cpf: rawClient.cpf,
-        dtNascimento: dateTimeFromString(rawClient.dt_nascimento),
-        rendaMensal: currencyFromString(rawClient.renda_mensal),
+        dtNascimento: rawClient.dt_nascimento
+          ? dateTimeFromString(rawClient.dt_nascimento) : undefined,
+        rendaMensal: rawClient.renda_mensal !== undefined
+          ? currencyFromString(rawClient.renda_mensal) : undefined,
         estadoCivil: rawClient.estado_civil,
       };
       clients.push({ client, rawClient });
