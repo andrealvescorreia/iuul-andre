@@ -16,24 +16,28 @@ class OperationStatus {
 * Classe com todos os códigos de erro das operações
 */
 class OperationErrors {
-  static get INVALID_PATIENT_DOCUMENT() {
+  static get INVALID_CLIENT_DOCUMENT() {
     return 1;
   }
 
-  static get INVALID_PATIENT_NAME() {
+  static get INVALID_CLIENT_NAME() {
     return 2;
   }
 
-  static get INVALID_PATIENT_BIRTHDATE() {
+  static get INVALID_CLIENT_BIRTHDATE() {
     return 3;
   }
 
-  static get INVALID_PATIENT_MONTHLY_INCOME() {
+  static get INVALID_CLIENT_MONTHLY_INCOME() {
     return 4;
   }
 
-  static get INVALID_PATIENT_MARITAL_STATUS() {
+  static get INVALID_CLIENT_MARITAL_STATUS() {
     return 5;
+  }
+
+  static get MISSING_CLIENT_FIELD() {
+    return 6;
   }
 }
 
