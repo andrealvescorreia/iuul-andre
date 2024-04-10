@@ -28,4 +28,5 @@ module.exports = {
     'max-classes-per-file': 'off',
     'import/extensions': 'off',
   },
+  'ignores': [".dist/*"]
 };
