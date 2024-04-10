@@ -2,7 +2,7 @@
   "name": "atividade-2.2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "tsc && node ./dist/js/index.js"
   },
@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.4",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0"
   },
   "dependencies": {
     "axios": "^1.6.8"
