@@ -22,7 +22,9 @@ module.exports = {
     "ecmaVersion": "latest"
   },
   "rules": {
-    "@typescript-eslint/space-before-function-paren": "off"
+    "@typescript-eslint/space-before-function-paren": "off",
+    "@typescript-eslint/no-extraneous-class": "off",
+    "@typescript-eslint/class-literal-property-style": "off",
   },
   "ignorePatterns": [".eslintrc.js", ".dist/*"]
 }
