@@ -10,6 +10,7 @@
     "luxon": "^3.4.4",
     "pg": "^8.11.5",
     "pg-hstore": "^2.3.4",
+    "readline-sync": "^1.4.10",
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
