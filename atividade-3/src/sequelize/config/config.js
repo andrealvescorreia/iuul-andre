@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import 'dotenv/config';
 
 export default {
   dialect: 'postgresql',
@@ -9,4 +9,4 @@ export default {
   database: process.env.DATABASE,
   // opcao 'logging: false' desabilita o log que o sequelize faz de cada query SQL
   logging: false,
-}
+};

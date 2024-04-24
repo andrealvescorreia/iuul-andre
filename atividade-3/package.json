@@ -9,10 +9,12 @@
   "dependencies": {
     "pg": "^8.11.5",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.3",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5",
-    "sequelize-cli": "^6.6.2"
+    "sequelize-cli": "^6.6.2",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0"
   }
 }
