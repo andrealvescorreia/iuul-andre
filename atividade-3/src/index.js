@@ -1,4 +1,3 @@
-import 'dotenv/config'
+import 'dotenv/config';
 
 import './sequelize/index.js'; // auto executa
-
