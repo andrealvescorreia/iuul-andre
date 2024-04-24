@@ -1,9 +1,8 @@
 const { Sequelize } = require('sequelize');
-const Universidade = require('./Universidade');
 const database = require('../database');
 
-const Aluno = database.define(
-  'Aluno',
+const Universidade = database.define(
+  'Universidade',
   {
     id: {
       type: Sequelize.INTEGER,
@@ -14,9 +13,4 @@ const Aluno = database.define(
   },
 );
 
-Aluno.belongsTo(Universidade, {
-  constraint: true,
-  foreignKey: 'idUniversidade',
-});
-
-module.exports = Aluno;
+module.exports = Universidade;
