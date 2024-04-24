@@ -1,3 +1,10 @@
-import 'dotenv/config';
+const dotenv = require('dotenv');
+const Aluno = require('./sequelize/models/Aluno.js');
 
-import './sequelize/index.js'; // auto executa
+dotenv.config();
+const inicia = require('./sequelize/index.js');// auto executa
+
+(async () => {
+  await inicia();
+  await Aluno.create({ nome: 'maria' });
+})();

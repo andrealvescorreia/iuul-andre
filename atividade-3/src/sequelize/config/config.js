@@ -1,6 +1,7 @@
-import 'dotenv/config';
+const dotenv = require('dotenv');
 
-export default {
+dotenv.config();
+module.exports = {
   dialect: 'postgresql',
   host: process.env.DATABASE_HOST,
   port: process.env.DATABASE_PORT,
@@ -9,4 +10,9 @@ export default {
   database: process.env.DATABASE,
   // opcao 'logging: false' desabilita o log que o sequelize faz de cada query SQL
   logging: false,
+  define: {
+    timestamps: true,
+    underscored: true,
+    underscoredAll: true,
+  },
 };

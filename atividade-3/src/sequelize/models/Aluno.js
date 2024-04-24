@@ -1,12 +1,14 @@
-import Sequelize, { Model } from 'sequelize';
+const { Sequelize, Model } = require('sequelize');
 
-export default class Aluno extends Model {
+module.exports = class Aluno extends Model {
   static init(sequelize) {
     super.init({
       nome: Sequelize.STRING,
     }, {
       sequelize,
+      modelName: 'aluno',
+      tableName: 'alunos',
     });
     return this;
   }
-}
+};
