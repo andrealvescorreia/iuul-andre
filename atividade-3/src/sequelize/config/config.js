@@ -15,4 +15,8 @@ module.exports = {
     underscored: true,
     underscoredAll: true,
   },
+  dialectOptions: {
+    useUTC: false,
+  },
+  timezone: 'America/Sao_Paulo',
 };
