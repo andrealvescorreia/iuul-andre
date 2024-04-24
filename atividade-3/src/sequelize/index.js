@@ -8,9 +8,9 @@ const models = [Aluno];
 module.exports = async () => {
   try {
     const sequelize = new Sequelize(databaseConfig);
-    await sequelize.sync({ force: true });
     await sequelize.authenticate(); // assegura que a conexão foi bem sucedida
     models.forEach((model) => model.init(sequelize));
+    await sequelize.sync();
     console.log('conexão bem sucedida');
   } catch (e) {
     console.log('não foi possível conectar ao banco de dados.');
