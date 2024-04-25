@@ -8,15 +8,9 @@ dotenv.config();
 (async () => {
   await database.sync({ force: true });
   try {
-    /*
-      const p = await Paciente.create({
-      cpf: '14386861459',
-      nome: 'andree',
-      dataNascimento: '2022-05-10'
-    }); */
     const p = await Paciente.create({ cpf: '14386861459', nome: 'andree', dataNascimento: '2002-05-10' });
     await Agendamento.create({
-      dataHoraInicio: new Date('2010-12-17T07:00:00'),
+      dataHoraInicio: new Date('2010-12-17T07:00:00'), // aqui está fora do horario de funcionamento
       dataHoraFim: new Date('2010-12-17T11:00:00'),
       cpfPaciente: p.cpf,
     });
