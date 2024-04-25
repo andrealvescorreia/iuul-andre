@@ -28,5 +28,7 @@ module.exports = {
     'no-plusplus': 'off',
     'max-classes-per-file': 'off',
     'import/extensions': 'off',
+    'linebreak-style': 'off',
+    'no-await-in-loop': 'off',
   },
 };
