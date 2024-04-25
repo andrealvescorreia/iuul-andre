@@ -1,8 +1,8 @@
 const readline = require('readline-sync');
 const pacienteController = require('../controllers/pacienteController');
 
-exports.listarPacientesOrdenadoPor = (chave) => {
-  const res = pacienteController.index({ body: { orderBy: chave } });
+exports.listarPacientesOrdenadoPor = async (chave) => {
+  const res = await pacienteController.index({ body: { orderBy: chave } });
   const pacientes = res.body;
 
   console.log(`

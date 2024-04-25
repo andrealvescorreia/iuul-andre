@@ -24,14 +24,14 @@ class MenuPrincipal {
     },
   ];
 
-  init() {
+  async init() {
     this.#rodando = true;
     while (this.#rodando) {
       console.log('Menu Principal');
       this.#acoes.forEach((acao) => console.log(`${acao.id}-${acao.descricao}`));
       const entrada = readline.question('\n');
       console.clear();
-      executarAcao(entrada, this.#acoes);
+      await executarAcao(entrada, this.#acoes);
       console.clear();
     }
     console.log('Saindo...');

@@ -11,17 +11,17 @@ class MenuPaciente {
     {
       id: '1',
       descricao: 'Cadastrar novo paciente',
-      executar: () => novoPaciente(),
+      executar: async () => { await novoPaciente(); },
     },
     {
       id: '2',
       descricao: 'Excluir paciente',
-      executar: () => deletarPaciente(),
+      executar: async () => { await deletarPaciente(); },
     },
     {
       id: '3',
       descricao: 'Listar pacientes (ordenar por CPF)',
-      executar: () => listarPacientesOrdenadoPor('cpf'),
+      executar: async () => { await listarPacientesOrdenadoPor('cpf'); },
     },
     {
       id: '4',
@@ -39,14 +39,14 @@ class MenuPaciente {
     this.#rodando = false;
   }
 
-  init() {
+  async init() {
     this.#rodando = true;
     while (this.#rodando) {
       console.log('Menu do Cadastro de Pacientes');
       this.#acoes.forEach((acao) => console.log(`${acao.id}-${acao.descricao}`));
       const entrada = readline.question('\n');
       console.clear();
-      executarAcao(entrada, this.#acoes);
+      await executarAcao(entrada, this.#acoes);
       console.clear();
     }
     console.log('Saindo...');

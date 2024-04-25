@@ -33,13 +33,13 @@ class MenuAgenda {
     },
   ];
 
-  #existemPacientes() {
-    const res = pacienteController.index({ body: {} });
+  async #existemPacientes() {
+    const res = await pacienteController.index({ body: {} });
     return res.body.length > 0;
   }
 
-  init() {
-    if (!this.#existemPacientes()) {
+  async init() {
+    if (!(await this.#existemPacientes())) {
       console.log('Não é possível acessar a agenda pois ainda não exisem pacientes');
       readline.question('Pressione Enter para continuar... ');
       return;
@@ -50,7 +50,7 @@ class MenuAgenda {
       this.#acoes.forEach((acao) => console.log(`${acao.id}-${acao.descricao}`));
       const entrada = readline.question('\n');
       console.clear();
-      executarAcao(entrada, this.#acoes);
+      await executarAcao(entrada, this.#acoes);
       console.clear();
     }
     console.log('Saindo...');

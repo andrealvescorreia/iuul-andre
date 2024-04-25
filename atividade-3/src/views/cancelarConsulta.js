@@ -40,12 +40,12 @@ function leHoraInicio() {
   return horaInicio;
 }
 
-exports.cancelarConsulta = () => {
+exports.cancelarConsulta = async () => {
   console.log('Cancelar agendamento');
   const cpfPaciente = leCpf();
   const dataConsulta = leDataConsulta();
   const horaInicio = leHoraInicio();
-  const res = agendamentoController.delete({
+  const res = await agendamentoController.delete({
     body: { cpfPaciente, dataConsulta, horaInicio },
   });
   if (!res.success) {

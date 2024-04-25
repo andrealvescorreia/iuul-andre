@@ -1,3 +1,5 @@
 const index = require('./views/index');
 
-index.init();
+(async () => {
+  await index.init();
+})();

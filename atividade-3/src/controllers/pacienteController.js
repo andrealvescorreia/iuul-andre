@@ -16,7 +16,7 @@ const DataUtils = require('../utils/DataUtils');
    * @param {boolean} res.success
    * @param {Array} res.errors
   */
-exports.save = (req) => {
+exports.save = async (req) => {
   const res = {};
   res.success = true;
   try {
@@ -47,7 +47,7 @@ exports.save = (req) => {
    * @returns {boolean} res.success
    * @returns {Array} res.errors
   */
-exports.index = (req) => {
+exports.index = async (req) => {
   const res = {};
   res.success = true;
   res.body = {};

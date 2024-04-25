@@ -1,8 +1,8 @@
 const readline = require('readline-sync');
 const agendamentoController = require('../controllers/agendamentoController');
 
-exports.listarAgenda = () => {
-  const resposta = readline.question('Apresentar a agenda T-Toda ou P-Periodo: ');
+exports.listarAgenda = async () => {
+  const resposta = await readline.question('Apresentar a agenda T-Toda ou P-Periodo: ');
   let agendamentos;
   let res;
   if (resposta.toUpperCase() === 'P') {

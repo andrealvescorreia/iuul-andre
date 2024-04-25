@@ -5,11 +5,11 @@ exports.tentarNovamente = () => {
   return resposta.toLowerCase() !== 'n';
 };
 
-exports.executarAcao = (id, acoes) => {
+exports.executarAcao = async (id, acoes) => {
   const acaoSelecionada = acoes.find((acao) => acao.id === id);
   if (!acaoSelecionada) {
     console.log('Ação inválida.');
     return;
   }
-  acaoSelecionada.executar();
+  await acaoSelecionada.executar();
 };

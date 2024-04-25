@@ -14,7 +14,7 @@ const PacienteDBModel = require('../databaseModels/PacienteDBModel');
    * @returns {object} res
    * @returns {object} res.body - corpo da resposta, com o agendamento criado
   */
-exports.save = (req) => {
+exports.save = async (req) => {
   const res = {};
   res.success = true;
   try {
@@ -44,7 +44,7 @@ exports.save = (req) => {
    * @returns {object} res
    * @returns {object} res.body - corpo da resposta, com o agendamento criado
   */
-exports.delete = (req) => {
+exports.delete = async (req) => {
   const res = {};
   res.success = true;
   try {

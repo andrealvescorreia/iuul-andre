@@ -48,14 +48,14 @@ function leDataNascimento() {
   return dataNascimento;
 }
 
-exports.novoPaciente = () => {
+exports.novoPaciente = async () => {
   console.log('Cadastro de paciente');
   const cpf = leCpf();
   const nome = leNome();
   const dataNascimento = leDataNascimento();
 
   const paciente = { cpf, nome, dataNascimento };
-  const res = pacienteController.save({ body: paciente });
+  const res = await pacienteController.save({ body: paciente });
   if (!res.success) {
     console.log(`Erro: ${res.errors}`);
     if (tentarNovamente()) {

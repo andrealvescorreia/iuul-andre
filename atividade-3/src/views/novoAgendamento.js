@@ -51,7 +51,7 @@ function leHoraFim() {
   return horaInicio;
 }
 
-exports.novoAgendamento = () => {
+exports.novoAgendamento = async () => {
   console.log('Cadastro de agendamento');
   const cpfPaciente = leCpf();
   const dataConsulta = leDataConsulta();
@@ -61,7 +61,7 @@ exports.novoAgendamento = () => {
   const agendamento = {
     cpfPaciente, dataConsulta, horaInicio, horaFim,
   };
-  const res = agendamentoController.save({ body: agendamento });
+  const res = await agendamentoController.save({ body: agendamento });
   if (!res.success) {
     console.log(`Erro: ${res.errors}`);
     if (tentarNovamente()) {
