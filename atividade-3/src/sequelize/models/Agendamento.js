@@ -32,6 +32,9 @@ function validaHorarios(dataHoraInicio, dataHoraFim) {
   if (dataHoraFim < dataHoraInicio) {
     throw new Error('horário fim não pode anteceder horário início');
   }
+  if (dataHoraInicio.toISODate() !== dataHoraFim.toISODate()) {
+    throw new Error('horário inicio e fim devem estar no mesmo dia');
+  }
 }
 
 const hasIntersecaoHorario = (dataHoraInicio1, dataHoraFim1, dataHoraInicio2, dataHoraFim2) => (
