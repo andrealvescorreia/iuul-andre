@@ -25,6 +25,15 @@ function validaDataHora(dateTime) {
   }
 }
 
+function validaHorarios(dataHoraInicio, dataHoraFim) {
+  if (dataHoraFim === dataHoraInicio) {
+    throw new Error('horário fim não pode ser igual a horário início');
+  }
+  if (dataHoraFim < dataHoraInicio) {
+    throw new Error('horário fim não pode anteceder horário início');
+  }
+}
+
 const hasIntersecaoHorario = (dataHoraInicio1, dataHoraFim1, dataHoraInicio2, dataHoraFim2) => (
   dataHoraFim1 > dataHoraInicio2
   && dataHoraFim1 <= dataHoraFim2)
@@ -60,12 +69,7 @@ const Agendamento = database.define(
           const dateTimeInicio = DateTime.fromISO(this.dataHoraInicio.toISOString());
           const dateTimeFim = DateTime.fromISO(dataHoraFim.toISOString());
           validaDataHora(dateTimeFim);
-          if (dateTimeFim === dateTimeInicio) {
-            throw new Error('horário fim não pode ser igual a horário início');
-          }
-          if (dateTimeFim < dateTimeInicio) {
-            throw new Error('horário fim não pode anteceder horário início');
-          }
+          validaHorarios(dateTimeInicio, dateTimeFim);
 
           const dataAgendamento = this.dataHoraInicio.toISOString().substr(0, 10);
           const agendamentosDoDia = await database.query(`SELECT * FROM agendamentos WHERE CAST(data_hora_inicio AS DATE) = '${dataAgendamento}'`, {
