@@ -7,15 +7,15 @@ function leCpf() {
   return cpf;
 }
 
-exports.deletarPaciente = () => {
+exports.deletarPaciente = async () => {
   console.log('Excluir paciente');
   const cpf = leCpf();
 
-  const res = pacienteController.delete({ body: { cpf } });
+  const res = await pacienteController.delete({ body: { cpf } });
   if (!res.success) {
     console.log(`Erro: ${res.errors[0]}`);
     if (tentarNovamente()) {
-      this.deletarPaciente();
+      await this.deletarPaciente();
     }
     return;
   }

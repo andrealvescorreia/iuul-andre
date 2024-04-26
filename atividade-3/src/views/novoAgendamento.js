@@ -6,14 +6,14 @@ const { tentarNovamente } = require('./utils');
 const DataValidator = require('../validators/DataValidator');
 const HoraValidator = require('../validators/HoraValidator');
 
-function pacienteExiste(cpf) {
-  const res = pacienteController.show({ body: { cpf } });
+async function pacienteExiste(cpf) {
+  const res = await pacienteController.show({ body: { cpf } });
   return res.success;
 }
 
-function leCpf() {
+async function leCpf() {
   const cpf = readline.question('CPF: ');
-  if (!pacienteExiste(cpf)) {
+  if (!(await pacienteExiste(cpf))) {
     console.log('Erro: paciente não cadastrado');
     console.log('Tente novamente\n');
     return leCpf();
@@ -53,7 +53,7 @@ function leHoraFim() {
 
 exports.novoAgendamento = async () => {
   console.log('Cadastro de agendamento');
-  const cpfPaciente = leCpf();
+  const cpfPaciente = await leCpf();
   const dataConsulta = leDataConsulta();
   const horaInicio = leHoraInicio();
   const horaFim = leHoraFim();
