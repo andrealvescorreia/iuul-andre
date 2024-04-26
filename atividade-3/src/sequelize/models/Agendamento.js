@@ -4,6 +4,9 @@ const database = require('../database');
 const Paciente = require('./Paciente');
 
 function validaDataHora(dateTime) {
+  if (dateTime < DateTime.now()) {
+    throw new Error('só é possível agendar consultas para o futuro');
+  }
   if (
     dateTime.minute !== 0
     && dateTime.minute !== 15
